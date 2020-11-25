@@ -17,7 +17,6 @@ namespace Etch.OrchardCore.Lever.Drivers
 
         private readonly IAuthorizationService _authorizationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILeverPostingService _leverPostingService;
 
         #endregion
 
@@ -27,7 +26,6 @@ namespace Etch.OrchardCore.Lever.Drivers
         {
             _authorizationService = authorizationService;
             _httpContextAccessor = httpContextAccessor;
-            _leverPostingService = leverPostingService;
         }
 
         #endregion
@@ -43,11 +41,10 @@ namespace Etch.OrchardCore.Lever.Drivers
                 return null;
             }
 
-            var postings = await _leverPostingService.GetFromAPICreateUpdate();
-
             return Initialize<LeverSettingsViewModel>("LeverSettings_Edit", model =>
             {
                 model.ApiKey = settings.ApiKey;
+                model.Site = settings.Site;
             }).Location("Content:3").OnGroup(Constants.GroupId);
         }
 
@@ -67,6 +64,7 @@ namespace Etch.OrchardCore.Lever.Drivers
                 await context.Updater.TryUpdateModelAsync(model, Prefix);
 
                 settings.ApiKey = model.ApiKey;
+                settings.Site = model.Site;
             }
 
             return await EditAsync(settings, context);

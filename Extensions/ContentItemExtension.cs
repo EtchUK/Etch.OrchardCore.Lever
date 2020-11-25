@@ -11,7 +11,6 @@ namespace Etch.OrchardCore.Lever.Extensions
         {
             var leverPostingPart = contentItem.As<LeverPostingPart>();
             leverPostingPart.LeverId = posting.Id;
-            leverPostingPart.UpdatedAt = posting.UpdatedAt.UnixTimeStampToDateTime();
             leverPostingPart.Data = JsonConvert.SerializeObject(posting);
             leverPostingPart.Apply();
 

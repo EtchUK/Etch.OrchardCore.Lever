@@ -45,15 +45,10 @@ namespace Etch.OrchardCore.Lever
 
             SchemaBuilder.CreateMapIndexTable(nameof(LeverPostingPartIndex), table => table
                 .Column<string>("LeverId")
-                .Column<DateTime>("UpdatedAt")
             );
 
             SchemaBuilder.AlterTable(nameof(LeverPostingPartIndex), table => table
                 .CreateIndex("IDX_LeverPostingPartIndex_LeverId", "LeverId")
-            );
-
-            SchemaBuilder.AlterTable(nameof(LeverPostingPartIndex), table => table
-                .CreateIndex("IDX_LeverPostingPartIndex_UpdatedAt", "UpdatedAt")
             );
 
             await _recipeMigrator.ExecuteAsync("create.recipe.json", this);

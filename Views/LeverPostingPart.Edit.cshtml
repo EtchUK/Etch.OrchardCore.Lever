@@ -11,13 +11,6 @@
 </fieldset>
 
 <fieldset class="form-group">
-    <label>@T["Department"]</label>
-    <div class="input-group">
-        <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Department" />
-    </div>
-</fieldset>
-
-<fieldset class="form-group">
     <label>@T["Team"]</label>
     <div class="input-group">
         <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Team" />
@@ -32,20 +25,13 @@
 </fieldset>
 
 <fieldset class="form-group">
-    <label>@T["Level"]</label>
-    <div class="input-group">
-        <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Level" />
-    </div>
-</fieldset>
-
-<fieldset class="form-group">
     <h3>Description</h3>
-    @Html.Raw(Model.Posting.Content.DescriptionHtml)
+    @Html.Raw(Model.Posting.Description)
     <br/>
-    @foreach (var list in Model.Posting.Content.Lists)
+    @foreach (var list in Model.Posting.Lists)
     {
         <strong>@list.Text</strong>
-        <p>@Html.Raw(list.Content)</p>
+        @Html.Raw(list.Content)
     }
-    @Html.Raw(Model.Posting.Content.ClosingHtml)
+    @Html.Raw(Model.Posting.Additional)
 </fieldset>

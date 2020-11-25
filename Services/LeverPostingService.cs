@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
 using Etch.OrchardCore.Lever.Api.Models.Dto;
 using Etch.OrchardCore.Lever.Api.Services;
 using Etch.OrchardCore.Lever.Extensions;
 using Etch.OrchardCore.Lever.Models;
+using Etch.OrchardCore.Lever.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using OrchardCore.Autoroute.Models;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Records;
+using OrchardCore.Entities;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Liquid;
+using OrchardCore.Settings;
 using YesSql;
 
 namespace Etch.OrchardCore.Lever.Services
@@ -29,12 +32,13 @@ namespace Etch.OrchardCore.Lever.Services
         private readonly ISession _session;
         private readonly IShellHost _shellHost;
         private readonly ShellSettings _shellSettings;
+        private readonly ISiteService _siteService;
 
         #endregion Dependancies
 
         #region Constructor
 
-        public LeverPostingService(IContentDefinitionManager contentDefinitionManager, ILiquidTemplateManager liquidTemplateManager, IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings)
+        public LeverPostingService(IContentDefinitionManager contentDefinitionManager, ILiquidTemplateManager liquidTemplateManager, IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings, ISiteService siteService)
         {
             _contentDefinitionManager = contentDefinitionManager;
             _liquidTemplateManager = liquidTemplateManager;
@@ -42,6 +46,7 @@ namespace Etch.OrchardCore.Lever.Services
             _session = session;
             _shellSettings = shellSettings;
             _shellHost = shellHost;
+            _siteService = siteService;
         }
 
         #endregion
@@ -50,12 +55,13 @@ namespace Etch.OrchardCore.Lever.Services
 
         public async Task<IList<ContentItem>> GetFromAPICreateUpdate()
         {
-            var postings = await _postingApiService.GetPostings();
+            var siteSettings = await _siteService.GetSiteSettingsAsync();
+            var postings = await _postingApiService.GetPostings(siteSettings.As<LeverSettings>().Site);
 
             return await CreateUpdateAsync(postings);
         }
 
-        private async Task<IList<ContentItem>> CreateUpdateAsync(PostingData postingData)
+        private async Task<IList<ContentItem>> CreateUpdateAsync(IList<Posting> postings)
         {
             var contentItems = new List<ContentItem>();
 
@@ -65,10 +71,10 @@ namespace Etch.OrchardCore.Lever.Services
             var postingContentItems = await GetAllAsync();
 
             // Remove old postings
-            await RemoveAsync(contentManager, postingContentItems.Where(x => !postingData.Data.Any(y => y.Id == x.As<LeverPostingPart>().LeverId)).ToList());
+            await RemoveAsync(contentManager, postingContentItems.Where(x => !postings.Any(y => y.Id == x.As<LeverPostingPart>().LeverId)).ToList());
 
             // Add/Update posings
-            foreach (var posting in postingData.Data)
+            foreach (var posting in postings)
             {
                 var contentItem = postingContentItems.Where(x => x.As<LeverPostingPart>().LeverId == posting.Id).SingleOrDefault();
 
@@ -76,12 +82,6 @@ namespace Etch.OrchardCore.Lever.Services
                 if (contentItem == null)
                 {
                     contentItems.Add(await CreateAsync(contentManager, posting));
-                    continue;
-                }
-
-                // Skip if no change has been done to the posting
-                if (contentItem.As<LeverPostingPart>().LeverId == posting.Id && contentItem.As<LeverPostingPart>().UpdatedAt == posting.UpdatedAt.UnixTimeStampToDateTime())
-                {
                     continue;
                 }
 
@@ -112,7 +112,7 @@ namespace Etch.OrchardCore.Lever.Services
             contentItem.SetLeverPostingPart(posting);
 
             var autoroutePart = contentItem.As<AutoroutePart>();
-            autoroutePart.Path = posting.Text.ToLower().Replace(" ", "-");
+            autoroutePart.Path = ToUrlSlug(posting.Text);
             contentItem.Apply(nameof(AutoroutePart), autoroutePart);
 
             ContentExtensions.Apply(contentItem, contentItem);
@@ -142,6 +142,27 @@ namespace Etch.OrchardCore.Lever.Services
                 await contentManager.RemoveAsync(contentItem);
             }
         }
+
+        public static string ToUrlSlug(string value)
+        {
+            //First to lower case
+            value = value.ToLowerInvariant();
+
+            //Replace spaces
+            value = Regex.Replace(value, @"\s", "-", RegexOptions.Compiled);
+
+            //Remove invalid chars
+            value = Regex.Replace(value, @"[^a-z0-9\s-_]", "", RegexOptions.Compiled);
+
+            //Trim dashes from end
+            value = value.Trim('-', '_');
+
+            //Replace double occurences of - or _
+            value = Regex.Replace(value, @"([-_]){2,}", "$1", RegexOptions.Compiled);
+
+            return value;
+        }
+
 
         #endregion
     }

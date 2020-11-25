@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
@@ -11,10 +12,7 @@ namespace Etch.OrchardCore.Lever.Api.Services
     {
         #region Constants
 
-        private string apiKey = null;
-
-        private const string URL1 = "https://run.mocky.io/v3/877ecca6-4e8b-4242-810d-ed5cfa10cb99";
-        //private const string URL1 = "https://run.mocky.io/v3/24adbdeb-c021-444e-8146-7a84e092855f";
+        private const string URL = "https://api.lever.co/v0/postings/";
 
         #endregion
 
@@ -36,18 +34,18 @@ namespace Etch.OrchardCore.Lever.Api.Services
 
         #region Implementation
 
-        public async Task<PostingData> GetPostings()
+        public async Task<IList<Posting>> GetPostings(string site)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, URL1);
+                var request = new HttpRequestMessage(HttpMethod.Get, $"{URL}{site}");
                 var client = _clientFactory.CreateClient();
 
                 var response = await client.SendAsync(request);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return JsonConvert.DeserializeObject<PostingData>(await response.Content.ReadAsStringAsync());
+                    return JsonConvert.DeserializeObject<IList<Posting>>(await response.Content.ReadAsStringAsync());
                 }
             }
             catch (Exception e)
@@ -63,6 +61,6 @@ namespace Etch.OrchardCore.Lever.Api.Services
 
     public interface IPostingApiService
     {
-        Task<PostingData> GetPostings();
+        Task<IList<Posting>> GetPostings(string site);
     }
 }

@@ -8,7 +8,6 @@ namespace Etch.OrchardCore.Lever.Indexes
     public class LeverPostingPartIndex : MapIndex
     {
         public string LeverId { get; set; }
-        public DateTime UpdatedAt { get; set; }
     }
 
     public class LeverPostingPartIndexProvider : IndexProvider<ContentItem>
@@ -29,7 +28,6 @@ namespace Etch.OrchardCore.Lever.Indexes
                         return new LeverPostingPartIndex
                         {
                             LeverId = part.LeverId,
-                            UpdatedAt = part.UpdatedAt
                         };
                     }
 

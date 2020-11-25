@@ -25,16 +25,16 @@
     </section>
     <section class="section padding--top-large">
         <div class="constrain">
-            {{ Model.Posting.Content.DescriptionHtml | raw }}
+            {{ Model.Posting.Description | raw }}
 
-            {% for list in Model.Posting.Content.Lists %}
-                <h3 class="margin--top-small">{{list.Text}}</h3>
-                {{list.Content | raw}}
+            {% for list in Model.Posting.Lists %}
+            <h3 class="margin--top-small">{{list.Text}}</h3>
+            {{list.Content | raw}}
             {% endfor %}
 
-            {{ Model.Posting.Content.ClosingHtml | raw }}
+            {{ Model.Posting.Additional | raw }}
 
-            <a class="btn btn--primary margin--top-large" href="{{Model.Posting.Urls.Apply}}">Apply Now</a>
+            <a class="btn btn--primary margin--top-large" href="{{Model.Posting.ApplyUrl}}">Apply Now</a>
         </div>
     </section>
 </article>

@@ -27,9 +27,6 @@ namespace Etch.OrchardCore.Lever
             TemplateContext.GlobalMemberAccessStrategy.Register<LeverPostingPartViewModel>();
             TemplateContext.GlobalMemberAccessStrategy.Register<Posting>();
             TemplateContext.GlobalMemberAccessStrategy.Register<PostingCategories>();
-            TemplateContext.GlobalMemberAccessStrategy.Register<PostingContent>();
-            TemplateContext.GlobalMemberAccessStrategy.Register<PostingUrls>();
-            TemplateContext.GlobalMemberAccessStrategy.Register<PostingContentLists>();
         }
 
         public override void ConfigureServices(IServiceCollection services)
