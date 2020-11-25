@@ -28,7 +28,7 @@ namespace Etch.OrchardCore.Lever
                 .Add(T["Configuration"], configuration => configuration
                     .Add(T["Lever"], settings => settings
                         .Add(T["Api"], T["Api"], layers => layers
-                            .Action("Index", "Admin", new { area = "OrchardCore.Settings", groupId = LeverSettingsDisplayDriver.GroupId })
+                            .Action("Index", "Admin", new { area = "OrchardCore.Settings", groupId = Constants.GroupId })
                             .Permission(Permissions.ManageLeverSettings)
                             .LocalNav()
                         )));

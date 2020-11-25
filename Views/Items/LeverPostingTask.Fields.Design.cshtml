@@ -1,0 +1,8 @@
+﻿@model ActivityViewModel<LeverPostingTask>
+@using OrchardCore.Workflows.Helpers
+@using OrchardCore.Workflows.ViewModels
+@using Etch.OrchardCore.Lever.Workflows.Activities
+
+<header>
+    <h4><i class="fa fa-user-lock"></i>@Model.Activity.GetTitleOrDefault(() => T["Lever Posting API"])</h4>
+</header>

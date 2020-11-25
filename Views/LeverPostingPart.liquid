@@ -1,0 +1,40 @@
+﻿{% assign date = Model.ContentItem.CreatedUtc | local %}
+{% assign d = date  | date: "%e" %}
+
+{% capture day %}
+{% case d %}
+{% when "1" or "21" or "31" %}{{ d }}st
+{% when "2" or "22" %}{{ d }}nd
+{% when "3" or "23" %}{{ d }}rd
+{% else %}{{ d }}th
+{% endcase %}
+{% endcapture %}
+
+<article>
+    <section class="section section--offset-top padding--bottom-none padding--top-none">
+        <div class="section__content constrain constrain--large">
+
+            <h1 class="text--title text--align-center">{{ Model.Posting.Text }}</h1>
+
+            <p class="text--align-center color--grey">{{ day }} {{ date | date: "%B" }} {{ date | date: "%Y" }}</p>
+
+            {% if Model.ContentItem.Content.NewsPost.Subheading.Text != nil %}
+            <p class="text--size-large text--align-center">{{ Model.ContentItem.Content.NewsPost.Subheading.Text }}</p>
+            {% endif %}
+        </div>
+    </section>
+    <section class="section padding--top-large">
+        <div class="constrain">
+            {{ Model.Posting.Content.DescriptionHtml | raw }}
+
+            {% for list in Model.Posting.Content.Lists %}
+                <h3 class="margin--top-small">{{list.Text}}</h3>
+                {{list.Content | raw}}
+            {% endfor %}
+
+            {{ Model.Posting.Content.ClosingHtml | raw }}
+
+            <a class="btn btn--primary margin--top-large" href="{{Model.Posting.Urls.Apply}}">Apply Now</a>
+        </div>
+    </section>
+</article>
