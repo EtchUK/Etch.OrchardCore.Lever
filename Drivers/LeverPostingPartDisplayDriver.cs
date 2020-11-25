@@ -25,5 +25,13 @@ namespace Etch.OrchardCore.Lever.Drivers
             })
             .Location("Content");
         }
+
+        public override IDisplayResult Edit(LeverPostingPart part)
+        {
+            return Initialize<LeverPostingPartViewModel>("LeverPostingPart_Edit", model =>
+            {
+                model.Posting = JsonConvert.DeserializeObject<Posting>(part.Data);
+            });
+        }
     }
 }

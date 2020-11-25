@@ -1,1 +1,51 @@
-﻿TEST
+﻿@model Etch.OrchardCore.Lever.ViewModels.LeverPostingPartViewModel
+
+<h3>Lever posting detail</h3>
+<p><i>These fields get updated automatically from lever API. To change these update the posing on the lever website.</i></p>
+
+<fieldset class="form-group">
+    <label>@T["Commitment"]</label>
+    <div class="input-group">
+        <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Commitment" />
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <label>@T["Department"]</label>
+    <div class="input-group">
+        <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Department" />
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <label>@T["Team"]</label>
+    <div class="input-group">
+        <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Team" />
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <label>@T["Location"]</label>
+    <div class="input-group">
+        <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Location" />
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <label>@T["Level"]</label>
+    <div class="input-group">
+        <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Level" />
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <h3>Description</h3>
+    @Html.Raw(Model.Posting.Content.DescriptionHtml)
+    <br/>
+    @foreach (var list in Model.Posting.Content.Lists)
+    {
+        <strong>@list.Text</strong>
+        <p>@Html.Raw(list.Content)</p>
+    }
+    @Html.Raw(Model.Posting.Content.ClosingHtml)
+</fieldset>
