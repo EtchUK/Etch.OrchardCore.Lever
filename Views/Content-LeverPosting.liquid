@@ -1,0 +1,8 @@
+﻿{% assign form = Model.ContentItem.Content.LeverPosting.LeverApplyForm.ContentItemIds | content_item_id %}
+{% shape_remove_item Model.Content "LeverPosting-LeverApplyForm" %}
+
+{{Model.Content | shape_render}}
+
+{% for item in form %}
+    {{ item | shape_build_display: "Detail" | shape_render }}
+{% endfor %}

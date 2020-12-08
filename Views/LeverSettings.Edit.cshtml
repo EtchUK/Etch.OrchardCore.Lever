@@ -11,3 +11,15 @@
     <input asp-for="Site" class="form-control" />
     <span class="hint">@T["Provide the site name from Lever."]</span>
 </div>
+
+<div class="form-group">
+    <label asp-for="SuccessUrl">@T["Success URL"]</label>
+    <input asp-for="SuccessUrl" class="form-control" />
+    <span class="hint">@T["URL to redirect candidates after successful job apply."]</span>
+</div>
+
+<div class="form-group">
+    <label asp-for="FormId">@T["Form Id"]</label>
+    <input asp-for="FormId" class="form-control" />
+    <span class="hint">@T["ContentItemId of lever form."]</span>
+</div>

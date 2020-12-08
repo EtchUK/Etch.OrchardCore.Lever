@@ -22,12 +22,10 @@
     <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc2-13450" />
     <PackageReference Include="OrchardCore.Workflows" Version="1.0.0-rc2-13450" />
     <PackageReference Include="OrchardCore.Title" Version="1.0.0-rc2-13450" />
+    <PackageReference Include="OrchardCore.Forms" Version="1.0.0-rc2-13450" />
   </ItemGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Items\" />
   </ItemGroup>
 </Project>

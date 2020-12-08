@@ -6,5 +6,6 @@ using OrchardCore.Modules.Manifest;
     Description = "Lever job API with ability to apply for a job.",
     Name = "Lever",
     Version = "0.0.1",
-    Website = "https://etchuk.com"
+    Website = "https://etchuk.com",
+    Dependencies = new string[] { "OrchardCore.Forms" }
 )]

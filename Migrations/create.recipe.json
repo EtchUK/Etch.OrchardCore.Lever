@@ -6,15 +6,1276 @@
   "website": "https://etchuk.com",
   "version": "0.1.0",
   "issetuprecipe": false,
-  "categories": [
-      "search",
-      "lever"
-  ],
-  "tags": [
-      "search",
-      "lever"
-  ],
+  "categories": ["search", "lever"],
+  "tags": ["search", "lever"],
   "steps": [
+    {
+      "name": "ContentDefinition",
+      "ContentTypes": [
+        {
+          "Name": "Group",
+          "DisplayName": "Group",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Stereotype": "Widget"
+            },
+            "FullTextAspectSettings": {},
+            "Category": "Container",
+            "Description": "Group a collection of widgets.",
+            "Icon": "object-group"
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Group",
+              "Name": "Group",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "BagPart",
+              "Name": "Content",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "DisplayName": "Content",
+                  "Description": "Content for group",
+                  "Position": "1"
+                },
+                "LinkableContentTypes": [],
+                "BagPartSettings": {
+                  "ContainedContentTypes": [
+                    "Blockquote",
+                    "Button",
+                    "Card",
+                    "Carousel",
+                    "Embed",
+                    "Figure",
+                    "Group",
+                    "Heading",
+                    "Hero",
+                    "Html",
+                    "Image",
+                    "Input",
+                    "Label",
+                    "LegacyVisualEditor",
+                    "Link",
+                    "OrderedList",
+                    "Paragraph",
+                    "Section",
+                    "Text",
+                    "TextArea",
+                    "UnorderedList",
+                    "Validation",
+                    "ValidationSummary",
+                    "VisualEditor"
+                  ],
+                  "DisplayType": "Detail"
+                },
+                "GalleryPartSettings": {
+                  "ThumbnailWidth": 480,
+                  "ThumbnailHeight": 270
+                },
+                "ContentIndexSettings": {}
+              }
+            }
+          ]
+        },
+        {
+          "Name": "LeverApplyForm",
+          "DisplayName": "Lever Apply Form",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true
+            },
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "LeverApplyForm",
+              "Name": "LeverApplyForm",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "FlowPart",
+              "Name": "FlowPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "ContentParts": []
+    },
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentItemId": "4bqdrpxkyeha63mvf7f62ped41",
+          "ContentItemVersionId": "4ghb2m4hd80nx3vt63k77av0xn",
+          "ContentType": "LeverApplyForm",
+          "DisplayText": "Lever form",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2020-12-08T10:41:20.229256Z",
+          "PublishedUtc": "2020-12-08T10:41:20.755706Z",
+          "CreatedUtc": "2020-11-30T15:31:36.222927Z",
+          "Owner": "admin",
+          "Author": "admin",
+          "LeverApplyForm": {},
+          "FlowPart": {
+            "Widgets": [
+              {
+                "ContentItemId": "4z6c62t5btd5c54zcrt7kcdw59",
+                "ContentItemVersionId": null,
+                "ContentType": "Form",
+                "DisplayText": "Apply Now",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2020-12-08T10:41:20.283594Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "TitlePart": {
+                  "Title": "Apply Now"
+                },
+                "FormPart": {
+                  "EnableAntiForgeryToken": true,
+                  "Action": "/lever-apply",
+                  "Method": "POST",
+                  "WorkflowTypeId": null,
+                  "EncType": "multipart/form-data"
+                },
+                "FlowPart": {
+                  "Widgets": [
+                    {
+                      "ContentItemId": "4h3yq0xm6f6am72169x30v47mr",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Heading",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.298637Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Heading": {
+                        "Text": {
+                          "Text": "SUBMIT YOUR APPLICATION"
+                        },
+                        "Level": {
+                          "Text": "2"
+                        }
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4s7np8nxc3w07v0n10ey8ss6m0",
+                      "ContentItemVersionId": null,
+                      "ContentType": "ValidationSummary",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.314273Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "ValidationSummaryPart": {},
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4k3pe54qzsn0sw282ngvqsycnz",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.320453Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "4j9xvbaw58hyzskgvcycgvamny",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "Full Name",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.330563Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "Full Name"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "name"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4f5yh56je9y13yzmpkbzhfwccq",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "name",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.342723Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "name"
+                            },
+                            "FormElementPart": {
+                              "Id": "name"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "Full name"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4djet5021yx212s1j0zz7b2ddz",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.367904Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "4n1yt9ghe3j2fv6ce2n9m8qscr",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "Email",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.371201Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "Email"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "email"
+                            }
+                          },
+                          {
+                            "ContentItemId": "49w3vhzrdbtwd7y2jnvr6aencz",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "email",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.376682Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "email"
+                            },
+                            "FormElementPart": {
+                              "Id": "email"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "Email"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "49x1h8c90v2z8zyp55dkkp94ws",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.385282Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "40dqyz5maq2brtb7wxmq9ss5d2",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "Phone",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.388109Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "Phone"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "phone"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4vmfr1ad9fj31we7d1m6fexw5g",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "phone",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.393804Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "phone"
+                            },
+                            "FormElementPart": {
+                              "Id": "phone"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "Phone"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4q19hfgd6seg6xs9047dg97hwe",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.402839Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "401qse494zkwt7z67mfgbh465x",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "Current company",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.405601Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "Current company"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "org"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4c1etvh61r169xz8ccee0gzm5g",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "org",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.411311Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "org"
+                            },
+                            "FormElementPart": {
+                              "Id": "org"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "Current company"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4w8jr08ra1z7j75wh58g1fxbxj",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Heading",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.420548Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Heading": {
+                        "Text": {
+                          "Text": "Links"
+                        },
+                        "Level": {
+                          "Text": "3"
+                        }
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "490k7tj2tjsav7z86kfq0bj6m5",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.427575Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "40hxtbqrcfv9e0yeqt57886wcc",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "Portfolio URL",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.430802Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "Portfolio URL"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "Portfolio"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4xjtpj2jxrfmhvryd1t98sp24f",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "urls[Portfolio]",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.438204Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "urls[Portfolio]"
+                            },
+                            "FormElementPart": {
+                              "Id": "Portfolio"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "Portfolio URL"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4q5hd0r21f536s97z7wq2f5ym7",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.448669Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "450mbz0g4xnk0xf2j2wn9gtcwz",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "Github URL",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.451815Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "Github URL"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "GitHub"
+                            }
+                          },
+                          {
+                            "ContentItemId": "41bxr533wxydf1wcms9rrdhhcg",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "urls[GitHub]",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.459524Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "urls[GitHub]"
+                            },
+                            "FormElementPart": {
+                              "Id": "GitHub"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "Github URL"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4ka8pxh561n9zy71s000z1k55s",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.472187Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "4qw7smx289r143c3k94qsns15w",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "LinkedIn URL",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.477307Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "LinkedIn URL"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "LinkedIn"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4006626yd1rbnxc50xz5x7jfns",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "urls[LinkedIn]",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.488003Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "urls[LinkedIn]"
+                            },
+                            "FormElementPart": {
+                              "Id": "LinkedIn"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "LinkedIn URL"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4bnfneh5nt8t07m91m1zzgktmp",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.503833Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "437nfee2eg478xqya0pnbmd6ns",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "Other website",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.508606Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "Other website"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "other"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4sjwepm8t5k7sy74hthy4jf1mx",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "urls[Other]",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.520464Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "urls[Other]"
+                            },
+                            "FormElementPart": {
+                              "Id": "other"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "Other website"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4d15fbfxxenz7sss510rq8c3my",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Heading",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.543808Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Heading": {
+                        "Text": {
+                          "Text": "GENERAL CANDIDATE QUESTIONS"
+                        },
+                        "Level": {
+                          "Text": "3"
+                        }
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "40n6x978ee7f9shpw6bngwxkwb",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.553507Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "4zpzpv5gk0beevj60ratsjd0c8",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "What is your current salary?",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.557862Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "What is your current salary?"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "q1"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4cj3j8fd0w0rq5y7xp5ww41rdh",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "cards[421cea2e-48a1-47b4-9b20-bad2b5eb67cc][field0]",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.568126Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "cards[421cea2e-48a1-47b4-9b20-bad2b5eb67cc][field0]"
+                            },
+                            "FormElementPart": {
+                              "Id": "q1"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "What is your current salary?"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "401y75bwpmcsd0v7mpta0v2qck",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.585612Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "47stjb0t5e7j3x8hgx8pez78xn",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "What is your expected salary?",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.59048Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "What is your expected salary?"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "q2"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4ryp902122p637yf4bgkpdmtnc",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "cards[421cea2e-48a1-47b4-9b20-bad2b5eb67cc][field1]",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.604606Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "cards[421cea2e-48a1-47b4-9b20-bad2b5eb67cc][field1]"
+                            },
+                            "FormElementPart": {
+                              "Id": "q2"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "What is your expected salary?"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4yxrbt5ggqjpc33wxzee6ebew6",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.619817Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "4mp1jw8p25hkdshrzb4wnb7m4j",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "What is your notice period?",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.62471Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "What is your notice period?"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "q3"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4279wnh479fsr30ggysx531qmy",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "cards[421cea2e-48a1-47b4-9b20-bad2b5eb67cc][field2]",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.635682Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "cards[421cea2e-48a1-47b4-9b20-bad2b5eb67cc][field2]"
+                            },
+                            "FormElementPart": {
+                              "Id": "q3"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "What is your notice period?"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4bvcp0cnmh99g7bszwbe62v4dz",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.653444Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "4qz2fy7tg5dtv1mhjprpytyzwf",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Label",
+                            "DisplayText": "What is your visa status?",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.658289Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "TitlePart": {
+                              "Title": "What is your visa status?"
+                            },
+                            "FormElementPart": {
+                              "Id": null
+                            },
+                            "LabelPart": {
+                              "For": "q4"
+                            }
+                          },
+                          {
+                            "ContentItemId": "4sns4ppzb2ahe4eg8j3v6z1zxj",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Input",
+                            "DisplayText": "cards[421cea2e-48a1-47b4-9b20-bad2b5eb67cc][field3]",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.668477Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "cards[421cea2e-48a1-47b4-9b20-bad2b5eb67cc][field3]"
+                            },
+                            "FormElementPart": {
+                              "Id": "q4"
+                            },
+                            "InputPart": {
+                              "Type": "text",
+                              "DefaultValue": null,
+                              "Placeholder": "What is your visa status?"
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "44a7sa0z0b7vk410w8sev3b1cv",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Heading",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.685528Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Heading": {
+                        "Text": {
+                          "Text": "ADDITIONAL INFORMATION"
+                        },
+                        "Level": {
+                          "Text": "3"
+                        }
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4tawe84221bn215kh3gy3da3wh",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.693015Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "4g1fg7n3we0s868k78yaekdv5t",
+                            "ContentItemVersionId": null,
+                            "ContentType": "TextArea",
+                            "DisplayText": "comments",
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.697103Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "FormInputElementPart": {
+                              "Name": "comments"
+                            },
+                            "FormElementPart": {
+                              "Id": "comments"
+                            },
+                            "TextAreaPart": {
+                              "DefaultValue": null,
+                              "Placeholder": "Add a cover letter or anything else you want to share."
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "406fjwjh998xc5wj1myq3yrp52",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Group",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.708458Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "Group": {},
+                      "Content": {
+                        "ContentItems": [
+                          {
+                            "ContentItemId": "49kx4d4s0pyrr3cerq2hdfc1dk",
+                            "ContentItemVersionId": null,
+                            "ContentType": "Group",
+                            "DisplayText": null,
+                            "Latest": false,
+                            "Published": false,
+                            "ModifiedUtc": "2020-12-08T10:41:20.711678Z",
+                            "PublishedUtc": null,
+                            "CreatedUtc": null,
+                            "Owner": null,
+                            "Author": "admin",
+                            "Group": {},
+                            "Content": {
+                              "ContentItems": [
+                                {
+                                  "ContentItemId": "4j0gvkw02hgfh5nfpp15571td2",
+                                  "ContentItemVersionId": null,
+                                  "ContentType": "Label",
+                                  "DisplayText": "Yes, Sumo Digital can contact me about future job opportunities for up to 2 years Privacy policy.",
+                                  "Latest": false,
+                                  "Published": false,
+                                  "ModifiedUtc": "2020-12-08T10:41:20.71468Z",
+                                  "PublishedUtc": null,
+                                  "CreatedUtc": null,
+                                  "Owner": null,
+                                  "Author": "admin",
+                                  "TitlePart": {
+                                    "Title": "Yes, Sumo Digital can contact me about future job opportunities for up to 2 years Privacy policy."
+                                  },
+                                  "FormElementPart": {
+                                    "Id": null
+                                  },
+                                  "LabelPart": {
+                                    "For": "marketing"
+                                  }
+                                },
+                                {
+                                  "ContentItemId": "45048q6shfrt0ybv1xn5yd50xm",
+                                  "ContentItemVersionId": null,
+                                  "ContentType": "Input",
+                                  "DisplayText": "consent[marketing]",
+                                  "Latest": false,
+                                  "Published": false,
+                                  "ModifiedUtc": "2020-12-08T10:41:20.721466Z",
+                                  "PublishedUtc": null,
+                                  "CreatedUtc": null,
+                                  "Owner": null,
+                                  "Author": "admin",
+                                  "FormInputElementPart": {
+                                    "Name": "consent[marketing]"
+                                  },
+                                  "FormElementPart": {
+                                    "Id": "marketing"
+                                  },
+                                  "InputPart": {
+                                    "Type": "checkbox",
+                                    "DefaultValue": null,
+                                    "Placeholder": null
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    },
+                    {
+                      "ContentItemId": "4cj3g3117yrg6r6ryeqnk01zw8",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Button",
+                      "DisplayText": "Submit Application",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2020-12-08T10:41:20.732558Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": null,
+                      "Author": "admin",
+                      "FormInputElementPart": {
+                        "Name": "Submit Application"
+                      },
+                      "FormElementPart": {
+                        "Id": null
+                      },
+                      "ButtonPart": {
+                        "Text": "Submit Application",
+                        "Type": "submit"
+                      },
+                      "FlowMetadata": {
+                        "Alignment": 3,
+                        "Size": 100
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              }
+            ]
+          },
+          "TitlePart": {
+            "Title": "Lever form"
+          }
+        }
+      ]
+    },
     {
       "name": "Queries",
       "Queries": [

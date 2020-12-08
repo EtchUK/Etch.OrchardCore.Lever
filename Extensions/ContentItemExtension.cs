@@ -17,5 +17,10 @@ namespace Etch.OrchardCore.Lever.Extensions
 
             contentItem.Apply(nameof(LeverPostingPart), leverPostingPart);
         }
+
+        public static LeverPostingPart GetLeverPostingPart(this ContentItem contentItem)
+        {
+            return contentItem.As<LeverPostingPart>();
+        }
     }
 }

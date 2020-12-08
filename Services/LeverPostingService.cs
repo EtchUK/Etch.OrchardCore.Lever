@@ -7,9 +7,9 @@ using Etch.OrchardCore.Lever.Api.Models.Dto;
 using Etch.OrchardCore.Lever.Api.Services;
 using Etch.OrchardCore.Lever.Extensions;
 using Etch.OrchardCore.Lever.Models;
-using Etch.OrchardCore.Lever.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Autoroute.Models;
+using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Records;
@@ -56,12 +56,13 @@ namespace Etch.OrchardCore.Lever.Services
         public async Task<IList<ContentItem>> GetFromAPICreateUpdate()
         {
             var siteSettings = await _siteService.GetSiteSettingsAsync();
-            var postings = await _postingApiService.GetPostings(siteSettings.As<LeverSettings>().Site);
 
-            return await CreateUpdateAsync(postings);
+            _postingApiService.Init(siteSettings.As<LeverSettings>().Site, siteSettings.As<LeverSettings>().ApiKey);
+
+            return await CreateUpdateAsync(await _postingApiService.GetPostings(), siteSettings.As<LeverSettings>().FormId);
         }
 
-        private async Task<IList<ContentItem>> CreateUpdateAsync(IList<Posting> postings)
+        private async Task<IList<ContentItem>> CreateUpdateAsync(IList<Posting> postings, string formId)
         {
             var contentItems = new List<ContentItem>();
 
@@ -81,7 +82,7 @@ namespace Etch.OrchardCore.Lever.Services
                 // If not already exists create a new one
                 if (contentItem == null)
                 {
-                    contentItems.Add(await CreateAsync(contentManager, posting));
+                    contentItems.Add(await CreateAsync(contentManager, posting, formId));
                     continue;
                 }
 
@@ -101,11 +102,20 @@ namespace Etch.OrchardCore.Lever.Services
             return contentItems.ToList();
         }
 
+        public async Task<ContentItem> GetById(string contentItemId)
+        {
+            var contentItem = await _session.Query<ContentItem>()
+                                      .With<ContentItemIndex>(x => x.Published && x.ContentType == Constants.Lever.ContentType && x.ContentItemId == contentItemId)
+                                      .ListAsync();
+
+            return contentItem.SingleOrDefault();
+        }
+
         #endregion
 
         #region Private
 
-        private async Task<ContentItem> CreateAsync(IContentManager contentManager, Posting posting)
+        private async Task<ContentItem> CreateAsync(IContentManager contentManager, Posting posting, string formId)
         {
             var contentItem = await contentManager.NewAsync(Constants.Lever.ContentType);
             contentItem.DisplayText = posting.Text;
@@ -114,6 +124,12 @@ namespace Etch.OrchardCore.Lever.Services
             var autoroutePart = contentItem.As<AutoroutePart>();
             autoroutePart.Path = ToUrlSlug(posting.Text);
             contentItem.Apply(nameof(AutoroutePart), autoroutePart);
+
+            var leverApply = contentItem.GetOrCreate<ContentPart>("LeverPosting");
+            var contentPickerField = contentItem.GetOrCreate<ContentPickerField>("LeverApplyForm");
+            contentPickerField.ContentItemIds = new string[] { formId };
+            leverApply.Apply("LeverApplyForm", contentPickerField);
+            contentItem.Apply("LeverPosting", leverApply);
 
             ContentExtensions.Apply(contentItem, contentItem);
 
@@ -170,5 +186,6 @@ namespace Etch.OrchardCore.Lever.Services
     public interface ILeverPostingService
     {
         Task<IList<ContentItem>> GetFromAPICreateUpdate();
+        Task<ContentItem> GetById(string contentItemId);
     }
 }

@@ -22,7 +22,7 @@ namespace Etch.OrchardCore.Lever
             _recipeMigrator = recipeMigrator;
         }
 
-        public async Task<int> Create()
+        public async Task<int> CreateAsync()
         {
             _contentDefinitionManager.AlterPartDefinition(nameof(LeverPostingPart), part => part
                 .WithDescription("Create a Lever posting content.")

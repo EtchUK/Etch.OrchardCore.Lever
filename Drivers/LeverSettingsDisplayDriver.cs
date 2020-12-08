@@ -45,6 +45,8 @@ namespace Etch.OrchardCore.Lever.Drivers
             {
                 model.ApiKey = settings.ApiKey;
                 model.Site = settings.Site;
+                model.SuccessUrl = settings.SuccessUrl;
+                model.FormId = settings.FormId;
             }).Location("Content:3").OnGroup(Constants.GroupId);
         }
 
@@ -65,6 +67,8 @@ namespace Etch.OrchardCore.Lever.Drivers
 
                 settings.ApiKey = model.ApiKey;
                 settings.Site = model.Site;
+                settings.SuccessUrl = model.SuccessUrl;
+                settings.FormId = model.FormId;
             }
 
             return await EditAsync(settings, context);
