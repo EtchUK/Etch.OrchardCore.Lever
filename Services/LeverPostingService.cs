@@ -13,6 +13,7 @@ using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Records;
+using OrchardCore.ContentManagement.Routing;
 using OrchardCore.Entities;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Liquid;
@@ -26,6 +27,7 @@ namespace Etch.OrchardCore.Lever.Services
         #region Dependancies
 
         public ILogger Logger { get; set; } = new NullLogger();
+        private readonly IAutorouteEntries _autorouteEntries;
         private readonly IContentDefinitionManager _contentDefinitionManager;
         private readonly ILiquidTemplateManager _liquidTemplateManager;
         private readonly IPostingApiService _postingApiService;
@@ -38,8 +40,9 @@ namespace Etch.OrchardCore.Lever.Services
 
         #region Constructor
 
-        public LeverPostingService(IContentDefinitionManager contentDefinitionManager, ILiquidTemplateManager liquidTemplateManager, IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings, ISiteService siteService)
+        public LeverPostingService(IAutorouteEntries autorouteEntries, IContentDefinitionManager contentDefinitionManager, ILiquidTemplateManager liquidTemplateManager, IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings, ISiteService siteService)
         {
+            _autorouteEntries = autorouteEntries;
             _contentDefinitionManager = contentDefinitionManager;
             _liquidTemplateManager = liquidTemplateManager;
             _postingApiService = postingApiService;
@@ -122,7 +125,7 @@ namespace Etch.OrchardCore.Lever.Services
             contentItem.SetLeverPostingPart(posting);
 
             var autoroutePart = contentItem.As<AutoroutePart>();
-            autoroutePart.Path = ToUrlSlug(posting.Text);
+            autoroutePart.Path = GetUniqueURL(ToUrlSlug(posting.Text));
             contentItem.Apply(nameof(AutoroutePart), autoroutePart);
 
             var leverApply = contentItem.GetOrCreate<ContentPart>("LeverPosting");
@@ -159,7 +162,7 @@ namespace Etch.OrchardCore.Lever.Services
             }
         }
 
-        public static string ToUrlSlug(string value)
+        private string ToUrlSlug(string value)
         {
             //First to lower case
             value = value.ToLowerInvariant();
@@ -177,6 +180,39 @@ namespace Etch.OrchardCore.Lever.Services
             value = Regex.Replace(value, @"([-_]){2,}", "$1", RegexOptions.Compiled);
 
             return value;
+        }
+
+        private string GetUniqueURL(string url)
+        {
+            var contentItemUrl = url;
+            int i = 1;
+
+            while (true == true)
+            {
+                if (i > 1)
+                {
+                    contentItemUrl = $"{url}-{i}";
+                }
+
+                if (IsUniqueURL(contentItemUrl))
+                {
+                    return contentItemUrl;
+                }
+
+                i++;
+            }
+        }
+
+        private bool IsUniqueURL(string url)
+        {
+            _autorouteEntries.TryGetEntryByPath("/" + url.Split('/').Last(), out var contentItem);
+
+            if (contentItem == null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
 

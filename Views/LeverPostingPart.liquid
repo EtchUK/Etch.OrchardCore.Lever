@@ -17,10 +17,6 @@
             <h1 class="text--title text--align-center">{{ Model.Posting.Text }}</h1>
 
             <p class="text--align-center color--grey">{{ day }} {{ date | date: "%B" }} {{ date | date: "%Y" }}</p>
-
-            {% if Model.ContentItem.Content.NewsPost.Subheading.Text != nil %}
-            <p class="text--size-large text--align-center">{{ Model.ContentItem.Content.NewsPost.Subheading.Text }}</p>
-            {% endif %}
         </div>
     </section>
     <section class="section padding--top-large">
