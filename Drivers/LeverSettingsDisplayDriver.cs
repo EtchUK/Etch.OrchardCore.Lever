@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Etch.OrchardCore.Lever.Models;
 using Etch.OrchardCore.Lever.Services;
 using Etch.OrchardCore.Lever.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using OrchardCore.DisplayManagement.Entities;
 using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
@@ -47,6 +50,8 @@ namespace Etch.OrchardCore.Lever.Drivers
                 model.Site = section.Site;
                 model.SuccessUrl = section.SuccessUrl;
                 model.FormId = section.FormId;
+                model.Locations = section.Locations;
+                model.LocationsJson = JsonConvert.SerializeObject(section.Locations ?? Array.Empty<string>());
             }).Location("Content:3").OnGroup(Constants.GroupId);
         }
 
@@ -63,12 +68,14 @@ namespace Etch.OrchardCore.Lever.Drivers
             {
                 var model = new LeverSettingsViewModel();
 
-                await context.Updater.TryUpdateModelAsync(model, Prefix);
-
-                section.ApiKey = model.ApiKey;
-                section.Site = model.Site;
-                section.SuccessUrl = model.SuccessUrl;
-                section.FormId = model.FormId;
+                if (await context.Updater.TryUpdateModelAsync(model, Prefix)) 
+                {
+                    section.ApiKey = model.ApiKey;
+                    section.Site = model.Site;
+                    section.SuccessUrl = model.SuccessUrl;
+                    section.FormId = model.FormId;
+                    section.Locations = string.IsNullOrWhiteSpace(model.LocationsJson) ? Array.Empty<string>() : JsonConvert.DeserializeObject<string[]>(model.LocationsJson).Select(x => x.Trim()).ToArray();
+                }
             }
 
             return await EditAsync(section, context);

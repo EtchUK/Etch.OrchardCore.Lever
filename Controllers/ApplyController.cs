@@ -44,9 +44,7 @@ namespace Etch.OrchardCore.Lever.Controllers
         [Route("lever-apply")]
         public async Task<IActionResult> Index(LeverPostingApplyViewModel model)
         {
-            var siteSettings = await _siteService.GetSiteSettingsAsync();
-            _postingApiService.Init(siteSettings.As<LeverSettings>().Site, siteSettings.As<LeverSettings>().ApiKey);
-
+            var settings = (await _siteService.GetSiteSettingsAsync()).As<LeverSettings>();
             var referer = Request.Headers["Referer"].ToString();
 
             if (!ModelState.IsValid)
@@ -71,7 +69,7 @@ namespace Etch.OrchardCore.Lever.Controllers
             model.PostingId = JsonConvert.DeserializeObject<Posting>(posting.GetLeverPostingPart().Data).Id;
             model.UpdateCards(HttpContext.Request.Form);
 
-            var result = await _postingApiService.Apply(model);
+            var result = await _postingApiService.Apply(settings, model);
 
             if (!result.Ok)
             {
@@ -79,7 +77,7 @@ namespace Etch.OrchardCore.Lever.Controllers
                 return new RedirectResult(referer);
             }
 
-            return new RedirectResult($"{siteSettings.As<LeverSettings>().SuccessUrl}?applicationId={result.ApplicationId}" ?? "/");
+            return new RedirectResult($"{settings.SuccessUrl}?applicationId={result.ApplicationId}" ?? "/");
         }
     }
 }
