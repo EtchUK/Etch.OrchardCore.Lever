@@ -7,5 +7,5 @@ using OrchardCore.Modules.Manifest;
     Name = "Lever",
     Version = "0.0.1",
     Website = "https://etchuk.com",
-    Dependencies = new string[] { "OrchardCore.Forms" }
+    Dependencies = new string[] { "OrchardCore.BackgroundTasks", "OrchardCore.Forms" }
 )]
