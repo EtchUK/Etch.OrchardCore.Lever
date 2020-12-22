@@ -1,7 +1,7 @@
 ﻿@model Etch.OrchardCore.Lever.ViewModels.LeverPostingPartViewModel
 
-<h3>Lever posting detail</h3>
-<p><i>These fields get updated automatically from lever API. To change these update the posing on the lever website.</i></p>
+<h3>@T["Lever posting detail"]</h3>
+<p><em>@T["Fields below are automatically updated via Lever API. Use the Lever website to update these fields."]</em></p>
 
 <div class="form-group">
     <label>@T["Commitment"]</label>
@@ -25,13 +25,16 @@
 </div>
 
 <div class="form-group">
-    <h3>Description</h3>
+    <h3>@T["Description"]</h3>
+
     @Html.Raw(Model.Posting.Description)
+
     <br/>
     @foreach (var list in Model.Posting.Lists)
     {
         <strong>@list.Text</strong>
         @Html.Raw(list.Content)
     }
+
     @Html.Raw(Model.Posting.Additional)
 </div>
