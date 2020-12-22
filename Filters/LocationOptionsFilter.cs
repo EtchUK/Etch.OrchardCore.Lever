@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using OrchardCore.Liquid;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Lever.Filters
