@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
 using Etch.OrchardCore.Lever.Api.Models.Dto;
+using Etch.OrchardCore.Lever.Models;
 using Etch.OrchardCore.Lever.ViewModels;
 using Newtonsoft.Json;
 
@@ -15,17 +17,15 @@ namespace Etch.OrchardCore.Lever.Api.Services
         #region Constants
 
         private const string URL = "https://api.lever.co/v0/postings/";
-        private string site = null;
-        private string api = null;
 
         #endregion
 
-        #region Dependancies
+        #region Dependencies
 
         private readonly IHttpClientFactory _clientFactory;
         public ILogger Logger { get; set; } = new NullLogger();
 
-        #endregion Dependancies
+        #endregion Dependencies
 
         #region Constructor
 
@@ -38,30 +38,24 @@ namespace Etch.OrchardCore.Lever.Api.Services
 
         #region Implementation
 
-        public void Init(string siteName, string apiKey)
+        public async Task<IList<Posting>> GetPostings(LeverSettings settings)
         {
-            site = siteName;
-            api = apiKey;
-        }
-
-        public async Task<IList<Posting>> GetPostings()
-        {
-            if (string.IsNullOrEmpty(site))
+            if (settings == null || !settings.IsValid())
             {
-                Logger.Error("Initialise the API and set siteName before calling this method.");
+                Logger.Error("Unable to fetch posting from API because `ApiKey` or `Site` is not defined in settings.");
                 return null;
             }
 
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, $"{URL}{site}");
+                var request = new HttpRequestMessage(HttpMethod.Get, $"{URL}{settings.Site}");
                 var client = _clientFactory.CreateClient();
 
                 var response = await client.SendAsync(request);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return JsonConvert.DeserializeObject<IList<Posting>>(await response.Content.ReadAsStringAsync());
+                    return JsonConvert.DeserializeObject<IList<Posting>>(await response.Content.ReadAsStringAsync()).Where(x => FilterPostings(settings, x)).ToList();
                 }
             }
             catch (Exception e)
@@ -72,11 +66,11 @@ namespace Etch.OrchardCore.Lever.Api.Services
             return null;
         }
 
-        public async Task<PostingResult> Apply(LeverPostingApplyViewModel model)
+        public async Task<PostingResult> Apply(LeverSettings settings, LeverPostingApplyViewModel model)
         {
-            if (string.IsNullOrEmpty(site) || string.IsNullOrEmpty(api))
+            if (settings == null || !settings.IsValid())
             {
-                Logger.Error("Initialise the API and set siteName and apiKey before calling this method.");
+                Logger.Error("Unable to submit application to API because `Site` or `ApiKey` is not defined in settings.");
                 return null;
             }
 
@@ -89,8 +83,7 @@ namespace Etch.OrchardCore.Lever.Api.Services
             try
             {
                 var client = _clientFactory.CreateClient();
-
-                var response = await client.PostAsync($"{URL}{site}/{model.PostingId}?key={api}", new StringContent(model.ToJson, Encoding.UTF8, "application/json"));
+                var response = await client.PostAsync($"{URL}{settings.Site}/{model.PostingId}?key={settings.ApiKey}", new StringContent(model.ToJson, Encoding.UTF8, "application/json"));
 
                 return JsonConvert.DeserializeObject<PostingResult>(await response.Content.ReadAsStringAsync());
             }
@@ -103,12 +96,25 @@ namespace Etch.OrchardCore.Lever.Api.Services
         }
 
         #endregion
+
+        #region Helper Methods
+
+        private bool FilterPostings(LeverSettings settings, Posting posting)
+        {
+            if (settings.Locations == null || !settings.Locations.Any())
+            {
+                return true;
+            }
+
+            return settings.Locations.Any(x => string.Equals(x, posting.Categories.Location, StringComparison.OrdinalIgnoreCase));
+        }
+
+        #endregion
     }
 
     public interface IPostingApiService
     {
-        Task<PostingResult> Apply(LeverPostingApplyViewModel model);
-        Task<IList<Posting>> GetPostings();
-        void Init(string siteName, string apiKey);
+        Task<PostingResult> Apply(LeverSettings settings, LeverPostingApplyViewModel model);
+        Task<IList<Posting>> GetPostings(LeverSettings settings);
     }
 }

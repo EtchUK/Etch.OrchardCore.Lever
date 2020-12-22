@@ -1,5 +1,17 @@
 ﻿@model Etch.OrchardCore.Lever.ViewModels.LeverSettingsViewModel
 
+<script asp-src="https://vuejs.org/js/vue.min.js" debug-src="https://vuejs.org/js/vue.js" asp-name="vuejs" at="Foot"></script>
+<script asp-src="~/Etch.OrchardCore.Fields/Scripts/values/admin.js" asp-name="values" depends-on="jquery" at="Foot"></script>
+<script at="Foot">
+    initializeValuesEditor(document.getElementById('@Html.IdFor(m => m)'));
+</script>
+
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
 <div class="form-group">
     <label asp-for="ApiKey">@T["API Key"]</label>
     <input asp-for="ApiKey" class="form-control" />
@@ -22,4 +34,38 @@
     <label asp-for="FormId">@T["Form Id"]</label>
     <input asp-for="FormId" class="form-control" />
     <span class="hint">@T["ContentItemId of lever form."]</span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Locations">Locations</label>
+    <p class="hint">Control which locations should be pulled from API.</p>
+
+    <div id="@Html.IdFor(m => m)" data-for="@Html.IdFor(m => m.LocationsJson)" asp-validation-class-for="LocationsJson" v-cloak>
+        <input type="hidden" asp-for="LocationsJson" :value="value" data-init="@Model.LocationsJson">
+
+        <div class="form-inline mb-3">
+            <div class="form-group mr-3 w-100" style="max-width: 300px;">
+                <label for="@Html.IdFor(m => m.Locations)_NewValue" class="sr-only">@T["Add Location"]</label>
+                <input type="text" class="form-control w-100" id="@Html.IdFor(m => m.Locations)_NewValue" placeholder="@T["Enter a new location"]" v-model="newValue" v-on:keydown.enter.prevent="add">
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" v-on:click="add">@T["Add"]</button>
+        </div>
+
+        <ul class="list-group">
+            <li v-for="(item, index) in items" class="list-group-item">
+                <div class="d-flex">
+                    <div class="w-100 text-left align-self-center">
+                        {{item}}
+                    </div>
+                    <div class="flex-shrink-1 text-right align-self-center">
+                        <button v-on:click="remove(index)" class="btn btn-danger btn-sm" type="button">
+                            <span class="fa fa-trash-alt"></span>
+                        </button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <p v-if="!hasValues" class="hint">@T["All postings will be pulled from Lever API."]</p>
+    </div>
 </div>

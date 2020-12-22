@@ -52,11 +52,9 @@ namespace Etch.OrchardCore.Lever.Services
 
         public async Task<IList<ContentItem>> GetFromAPICreateUpdate()
         {
-            var siteSettings = await _siteService.GetSiteSettingsAsync();
+            var settings = (await _siteService.GetSiteSettingsAsync()).As<LeverSettings>();
 
-            _postingApiService.Init(siteSettings.As<LeverSettings>().Site, siteSettings.As<LeverSettings>().ApiKey);
-
-            return await CreateUpdateAsync(await _postingApiService.GetPostings(), siteSettings.As<LeverSettings>().FormId);
+            return await CreateUpdateAsync(await _postingApiService.GetPostings(settings), settings.FormId);
         }
 
         private async Task<IList<ContentItem>> CreateUpdateAsync(IList<Posting> postings, string formId)
