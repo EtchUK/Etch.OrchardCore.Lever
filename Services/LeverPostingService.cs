@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Castle.Core.Logging;
+﻿using Castle.Core.Logging;
 using Etch.OrchardCore.Lever.Api.Models.Dto;
 using Etch.OrchardCore.Lever.Api.Services;
 using Etch.OrchardCore.Lever.Extensions;
@@ -11,13 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Autoroute.Models;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
-using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.ContentManagement.Routing;
 using OrchardCore.Entities;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Liquid;
 using OrchardCore.Settings;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using YesSql;
 
 namespace Etch.OrchardCore.Lever.Services
@@ -27,29 +26,28 @@ namespace Etch.OrchardCore.Lever.Services
         #region Dependancies
 
         public ILogger Logger { get; set; } = new NullLogger();
+
         private readonly IAutorouteEntries _autorouteEntries;
-        private readonly IContentDefinitionManager _contentDefinitionManager;
-        private readonly ILiquidTemplateManager _liquidTemplateManager;
         private readonly IPostingApiService _postingApiService;
         private readonly ISession _session;
         private readonly IShellHost _shellHost;
         private readonly ShellSettings _shellSettings;
         private readonly ISiteService _siteService;
+        private readonly ISlugService _slugService;
 
         #endregion Dependancies
 
         #region Constructor
 
-        public LeverPostingService(IAutorouteEntries autorouteEntries, IContentDefinitionManager contentDefinitionManager, ILiquidTemplateManager liquidTemplateManager, IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings, ISiteService siteService)
+        public LeverPostingService(IAutorouteEntries autorouteEntries, IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings, ISiteService siteService, ISlugService slugService)
         {
             _autorouteEntries = autorouteEntries;
-            _contentDefinitionManager = contentDefinitionManager;
-            _liquidTemplateManager = liquidTemplateManager;
             _postingApiService = postingApiService;
             _session = session;
             _shellSettings = shellSettings;
             _shellHost = shellHost;
             _siteService = siteService;
+            _slugService = slugService;
         }
 
         #endregion
@@ -80,7 +78,7 @@ namespace Etch.OrchardCore.Lever.Services
             // Add/Update posings
             foreach (var posting in postings)
             {
-                var contentItem = postingContentItems.Where(x => x.As<LeverPostingPart>().LeverId == posting.Id).SingleOrDefault();
+                var contentItem = postingContentItems.SingleOrDefault(x => x.As<LeverPostingPart>().LeverId == posting.Id);
 
                 // If not already exists create a new one
                 if (contentItem == null)
@@ -96,22 +94,18 @@ namespace Etch.OrchardCore.Lever.Services
             return contentItems;
         }
 
-        public async Task<List<ContentItem>> GetAllAsync()
+        public async Task<IEnumerable<ContentItem>> GetAllAsync()
         {
-            var contentItems = await _session.Query<ContentItem>()
-                                      .With<ContentItemIndex>(x => x.Published && x.ContentType == Constants.Lever.ContentType)
-                                      .ListAsync();
-
-            return contentItems.ToList();
+            return await _session.Query<ContentItem>()
+                .With<ContentItemIndex>(x => x.Published && x.ContentType == Constants.Lever.ContentType)
+                .ListAsync();
         }
 
         public async Task<ContentItem> GetById(string contentItemId)
         {
-            var contentItem = await _session.Query<ContentItem>()
-                                      .With<ContentItemIndex>(x => x.Published && x.ContentType == Constants.Lever.ContentType && x.ContentItemId == contentItemId)
-                                      .ListAsync();
-
-            return contentItem.SingleOrDefault();
+            return await _session.Query<ContentItem>()
+                .With<ContentItemIndex>(x => x.Published && x.ContentType == Constants.Lever.ContentType && x.ContentItemId == contentItemId)
+                .FirstOrDefaultAsync();
         }
 
         #endregion
@@ -125,7 +119,7 @@ namespace Etch.OrchardCore.Lever.Services
             contentItem.SetLeverPostingPart(posting);
 
             var autoroutePart = contentItem.As<AutoroutePart>();
-            autoroutePart.Path = GetUniqueURL(ToUrlSlug(posting.Text));
+            autoroutePart.Path = $"{_slugService.Slugify(posting.Text)}/{posting.Id}";
             contentItem.Apply(nameof(AutoroutePart), autoroutePart);
 
             var leverApply = contentItem.GetOrCreate<ContentPart>("LeverPosting");
@@ -142,6 +136,14 @@ namespace Etch.OrchardCore.Lever.Services
             return contentItem;
         }
 
+        private async Task RemoveAsync(IContentManager contentManager, IList<ContentItem> contentItems)
+        {
+            foreach (var contentItem in contentItems)
+            {
+                await contentManager.RemoveAsync(contentItem);
+            }
+        }
+
         private async Task<ContentItem> UpdateAsync(IContentManager contentManager, ContentItem contentItem, Posting posting)
         {
             contentItem.DisplayText = posting.Text;
@@ -152,67 +154,6 @@ namespace Etch.OrchardCore.Lever.Services
             await contentManager.UpdateAsync(contentItem);
 
             return contentItem;
-        }
-
-        private async Task RemoveAsync(IContentManager contentManager, IList<ContentItem> contentItems)
-        {
-            foreach (var contentItem in contentItems)
-            {
-                await contentManager.RemoveAsync(contentItem);
-            }
-        }
-
-        private string ToUrlSlug(string value)
-        {
-            //First to lower case
-            value = value.ToLowerInvariant();
-
-            //Replace spaces
-            value = Regex.Replace(value, @"\s", "-", RegexOptions.Compiled);
-
-            //Remove invalid chars
-            value = Regex.Replace(value, @"[^a-z0-9\s-_]", "", RegexOptions.Compiled);
-
-            //Trim dashes from end
-            value = value.Trim('-', '_');
-
-            //Replace double occurences of - or _
-            value = Regex.Replace(value, @"([-_]){2,}", "$1", RegexOptions.Compiled);
-
-            return value;
-        }
-
-        private string GetUniqueURL(string url)
-        {
-            var contentItemUrl = url;
-            int i = 1;
-
-            while (true == true)
-            {
-                if (i > 1)
-                {
-                    contentItemUrl = $"{url}-{i}";
-                }
-
-                if (IsUniqueURL(contentItemUrl))
-                {
-                    return contentItemUrl;
-                }
-
-                i++;
-            }
-        }
-
-        private bool IsUniqueURL(string url)
-        {
-            _autorouteEntries.TryGetEntryByPath("/" + url.Split('/').Last(), out var contentItem);
-
-            if (contentItem == null)
-            {
-                return true;
-            }
-
-            return false;
         }
 
 
