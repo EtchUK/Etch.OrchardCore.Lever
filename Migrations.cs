@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Etch.OrchardCore.Lever.Indexes;
 using Etch.OrchardCore.Lever.Models;
 using OrchardCore.Autoroute.Models;

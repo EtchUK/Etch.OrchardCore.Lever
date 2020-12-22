@@ -1,6 +1,6 @@
 ﻿namespace Etch.OrchardCore.Lever
 {
-    public class Constants
+    public static class Constants
     {
         public const string GroupId = "Lever";
 
