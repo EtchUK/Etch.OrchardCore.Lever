@@ -4,10 +4,16 @@
   "description": "Provides lever search.",
   "author": "Etch",
   "website": "https://etchuk.com",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "issetuprecipe": false,
-  "categories": ["search", "lever"],
-  "tags": ["search", "lever"],
+  "categories": [
+    "search",
+    "lever"
+  ],
+  "tags": [
+    "search",
+    "lever"
+  ],
   "steps": [
     {
       "name": "ContentDefinition",
@@ -45,37 +51,8 @@
                 },
                 "LinkableContentTypes": [],
                 "BagPartSettings": {
-                  "ContainedContentTypes": [
-                    "Blockquote",
-                    "Button",
-                    "Card",
-                    "Carousel",
-                    "Embed",
-                    "Figure",
-                    "Group",
-                    "Heading",
-                    "Hero",
-                    "Html",
-                    "Image",
-                    "Input",
-                    "Label",
-                    "LegacyVisualEditor",
-                    "Link",
-                    "OrderedList",
-                    "Paragraph",
-                    "Section",
-                    "Text",
-                    "TextArea",
-                    "UnorderedList",
-                    "Validation",
-                    "ValidationSummary",
-                    "VisualEditor"
-                  ],
+                  "ContainedContentTypes": [],
                   "DisplayType": "Detail"
-                },
-                "GalleryPartSettings": {
-                  "ThumbnailWidth": 480,
-                  "ThumbnailHeight": 270
                 },
                 "ContentIndexSettings": {}
               }
