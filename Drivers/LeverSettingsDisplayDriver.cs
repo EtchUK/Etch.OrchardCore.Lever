@@ -32,7 +32,7 @@ namespace Etch.OrchardCore.Lever.Drivers
 
         #region Overrides
 
-        public override async Task<IDisplayResult> EditAsync(LeverSettings settings, BuildEditorContext context)
+        public override async Task<IDisplayResult> EditAsync(LeverSettings section, BuildEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -43,14 +43,14 @@ namespace Etch.OrchardCore.Lever.Drivers
 
             return Initialize<LeverSettingsViewModel>("LeverSettings_Edit", model =>
             {
-                model.ApiKey = settings.ApiKey;
-                model.Site = settings.Site;
-                model.SuccessUrl = settings.SuccessUrl;
-                model.FormId = settings.FormId;
+                model.ApiKey = section.ApiKey;
+                model.Site = section.Site;
+                model.SuccessUrl = section.SuccessUrl;
+                model.FormId = section.FormId;
             }).Location("Content:3").OnGroup(Constants.GroupId);
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(LeverSettings settings, BuildEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(LeverSettings section, BuildEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -65,13 +65,13 @@ namespace Etch.OrchardCore.Lever.Drivers
 
                 await context.Updater.TryUpdateModelAsync(model, Prefix);
 
-                settings.ApiKey = model.ApiKey;
-                settings.Site = model.Site;
-                settings.SuccessUrl = model.SuccessUrl;
-                settings.FormId = model.FormId;
+                section.ApiKey = model.ApiKey;
+                section.Site = model.Site;
+                section.SuccessUrl = model.SuccessUrl;
+                section.FormId = model.FormId;
             }
 
-            return await EditAsync(settings, context);
+            return await EditAsync(section, context);
         }
 
         #endregion

@@ -8,14 +8,12 @@ using OrchardCore.Autoroute.Models;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Records;
-using OrchardCore.ContentManagement.Routing;
 using OrchardCore.Entities;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Liquid;
 using OrchardCore.Settings;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using YesSql;
 
@@ -27,7 +25,6 @@ namespace Etch.OrchardCore.Lever.Services
 
         public ILogger Logger { get; set; } = new NullLogger();
 
-        private readonly IAutorouteEntries _autorouteEntries;
         private readonly IPostingApiService _postingApiService;
         private readonly ISession _session;
         private readonly IShellHost _shellHost;
@@ -39,9 +36,8 @@ namespace Etch.OrchardCore.Lever.Services
 
         #region Constructor
 
-        public LeverPostingService(IAutorouteEntries autorouteEntries, IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings, ISiteService siteService, ISlugService slugService)
+        public LeverPostingService(IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings, ISiteService siteService, ISlugService slugService)
         {
-            _autorouteEntries = autorouteEntries;
             _postingApiService = postingApiService;
             _session = session;
             _shellSettings = shellSettings;
