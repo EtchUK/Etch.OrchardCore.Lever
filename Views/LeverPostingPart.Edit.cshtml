@@ -3,28 +3,28 @@
 <h3>Lever posting detail</h3>
 <p><i>These fields get updated automatically from lever API. To change these update the posing on the lever website.</i></p>
 
-<fieldset class="form-group">
+<div class="form-group">
     <label>@T["Commitment"]</label>
     <div class="input-group">
         <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Commitment" />
     </div>
-</fieldset>
+</div>
 
-<fieldset class="form-group">
+<div class="form-group">
     <label>@T["Team"]</label>
     <div class="input-group">
         <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Team" />
     </div>
-</fieldset>
+</div>
 
-<fieldset class="form-group">
+<div class="form-group">
     <label>@T["Location"]</label>
     <div class="input-group">
         <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Location" />
     </div>
-</fieldset>
+</div>
 
-<fieldset class="form-group">
+<div class="form-group">
     <h3>Description</h3>
     @Html.Raw(Model.Posting.Description)
     <br/>
@@ -34,4 +34,4 @@
         @Html.Raw(list.Content)
     }
     @Html.Raw(Model.Posting.Additional)
-</fieldset>
+</div>
