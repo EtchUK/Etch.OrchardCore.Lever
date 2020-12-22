@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Etch.OrchardCore.Lever.Api.Models.Dto;
+﻿using Etch.OrchardCore.Lever.Api.Models.Dto;
 using Etch.OrchardCore.Lever.Models;
 using Etch.OrchardCore.Lever.ViewModels;
 using Newtonsoft.Json;
@@ -11,7 +10,7 @@ namespace Etch.OrchardCore.Lever.Drivers
 {
     public class LeverPostingPartDisplayDriver : ContentPartDisplayDriver<LeverPostingPart>
     {
-        public override async Task<IDisplayResult> DisplayAsync(LeverPostingPart part, BuildPartDisplayContext context)
+        public override IDisplayResult Display(LeverPostingPart part, BuildPartDisplayContext context)
         {
             if (context.DisplayType == "SummaryAdmin")
             {
