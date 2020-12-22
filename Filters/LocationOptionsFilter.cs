@@ -23,17 +23,13 @@ namespace Etch.OrchardCore.Lever.Filters
         public async ValueTask<FluidValue> ProcessAsync(FluidValue input, FilterArguments arguments, TemplateContext ctx)
         {
             var locations = new List<string>();
+
             foreach (var value in input.Enumerate())
             {
-                var location = await value.GetValueAsync("LeverPostingPart.Location", ctx);
-
-                if (!locations.Any(x => x.Equals(location.ToStringValue(), System.StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    locations.Add(location.ToStringValue());
-                }
+                locations.Add((await value.GetValueAsync("LeverPostingPart.Location", ctx)).ToStringValue());
             }
 
-            return new StringValue(StringUtils.GetOptions(locations, _httpContextAccessor.HttpContext.Request.Query["location"].FirstOrDefault()));
+            return new StringValue(StringUtils.GetOptions(locations.Distinct().OrderBy(x => x).ToList(), _httpContextAccessor.HttpContext.Request.Query["location"].FirstOrDefault()));
         }
     }
 }

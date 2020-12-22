@@ -3,9 +3,9 @@ using Fluid;
 using Fluid.Values;
 using Microsoft.AspNetCore.Http;
 using OrchardCore.Liquid;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Lever.Filters
@@ -23,20 +23,16 @@ namespace Etch.OrchardCore.Lever.Filters
         public async ValueTask<FluidValue> ProcessAsync(FluidValue input, FilterArguments arguments, TemplateContext ctx)
         {
             var commitments = new List<string>();
+
             foreach (var value in input.Enumerate())
             {
-                var commitment = await value.GetValueAsync("LeverPostingPart.Commitment", ctx);
-
-                if (!commitments.Any(x => x.Equals(commitment.ToStringValue(), System.StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    commitments.Add(commitment.ToStringValue());
-                }
+                commitments.AddRange((await value.GetValueAsync("LeverPostingPart.Commitment", ctx))
+                    .ToStringValue().Split(",", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => x.Trim()).ToList()
+                );
             }
 
-            
-            return new StringValue(StringUtils.GetOptions(commitments, _httpContextAccessor.HttpContext.Request.Query["commitment"].FirstOrDefault()));
+            return new StringValue(StringUtils.GetOptions(commitments.Distinct().OrderBy(x => x).ToList(), _httpContextAccessor.HttpContext.Request.Query["commitment"].FirstOrDefault()));
         }
-
-
     }
 }
