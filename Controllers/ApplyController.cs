@@ -52,7 +52,7 @@ namespace Etch.OrchardCore.Lever.Controllers
                 return new RedirectResult(referer);
             }
 
-            _autorouteEntries.TryGetEntryByPath("/" + referer.Split('/').Last(), out var contentItem);
+            _autorouteEntries.TryGetEntryByPath(GetReferrerRoute(), out var contentItem);
 
             if (contentItem == null)
             {
@@ -78,6 +78,15 @@ namespace Etch.OrchardCore.Lever.Controllers
             }
 
             return new RedirectResult($"{settings.SuccessUrl}?applicationId={result.ApplicationId}&contentItemId={contentItem.ContentItemId}" ?? "/");
+        }
+
+        private string GetReferrerRoute()
+        {
+            var referer = Request.Headers["Referer"].ToString();
+            referer = referer.Replace($"{Request.Scheme}://", "");
+            referer = referer.Replace(Request.Host.ToString(), "");
+            referer = referer.Replace(Request.PathBase, "");
+            return referer;
         }
     }
 }
