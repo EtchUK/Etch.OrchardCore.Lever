@@ -4,6 +4,7 @@ using Etch.OrchardCore.Lever.Api.Services;
 using Etch.OrchardCore.Lever.Extensions;
 using Etch.OrchardCore.Lever.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using OrchardCore.Autoroute.Models;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Records;
@@ -132,6 +133,11 @@ namespace Etch.OrchardCore.Lever.Services
 
         private async Task<ContentItem> UpdateAsync(IContentManager contentManager, ContentItem contentItem, Posting posting)
         {
+            if (contentItem.DisplayText == posting.Text && contentItem.ComparePostingPart(posting))
+            {
+                return contentItem;
+            }
+
             contentItem.DisplayText = posting.Text;
             contentItem.SetLeverPostingPart(posting);
 
