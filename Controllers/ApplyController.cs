@@ -77,7 +77,7 @@ namespace Etch.OrchardCore.Lever.Controllers
                 return new RedirectResult(referer);
             }
 
-            return new RedirectResult($"{settings.SuccessUrl}?applicationId={result.ApplicationId}" ?? "/");
+            return new RedirectResult($"{settings.SuccessUrl}?applicationId={result.ApplicationId}&contentItemId={contentItem.ContentItemId}" ?? "/");
         }
     }
 }
