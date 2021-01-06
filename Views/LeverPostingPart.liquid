@@ -11,26 +11,26 @@
 {% endcapture %}
 
 <article>
-    <section class="section section--offset-top padding--bottom-none padding--top-none">
+    <section class="section section--padding-bottom-default section--padding-top-default">
         <div class="section__content constrain constrain--large">
-
             <h1 class="text--title text--align-center">{{ Model.Posting.Text }}</h1>
-
             <p class="text--align-center color--grey">{{ day }} {{ date | date: "%B" }} {{ date | date: "%Y" }}</p>
         </div>
     </section>
-    <section class="section padding--top-large">
-        <div class="constrain">
+
+    <section class="section section--padding-bottom-default section--padding-top-none">
+        <div class="section__content constrain constrain--thin">
             {{ Model.Posting.Description | raw }}
 
             {% for list in Model.Posting.Lists %}
-            <h3 class="margin--top-small">{{list.Text}}</h3>
-            {{list.Content | raw}}
+                <h3 class="margin--top-small">{{ list.Text }}</h3>
+                {{ list.Content | raw }}
             {% endfor %}
 
             {{ Model.Posting.Additional | raw }}
 
-            <a class="btn btn--primary margin--top-large" href="{{Model.Posting.ApplyUrl}}">Apply Now</a>
+            <a class="btn btn--primary margin--top-large" href="{{ Model.Posting.ApplyUrl }}">Apply Now</a>
         </div>
     </section>
 </article>
+
