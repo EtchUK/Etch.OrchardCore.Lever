@@ -5,7 +5,6 @@ using Etch.OrchardCore.Lever.Extensions;
 using Etch.OrchardCore.Lever.Models;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Autoroute.Models;
-using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.Entities;
@@ -50,14 +49,49 @@ namespace Etch.OrchardCore.Lever.Services
 
         #region Implementation
 
-        public async Task<IList<ContentItem>> GetFromAPICreateUpdate()
+        public async Task<IEnumerable<ContentItem>> GetAllAsync()
         {
-            var settings = (await _siteService.GetSiteSettingsAsync()).As<LeverSettings>();
-
-            return await CreateUpdateAsync(await _postingApiService.GetPostings(settings), settings.FormId);
+            return await _session.Query<ContentItem>()
+                .With<ContentItemIndex>(x => x.Published && x.ContentType == Constants.Lever.ContentType)
+                .ListAsync();
         }
 
-        private async Task<IList<ContentItem>> CreateUpdateAsync(IList<Posting> postings, string formId)
+        public async Task<ContentItem> GetById(string contentItemId)
+        {
+            return await _session.Query<ContentItem>()
+                .With<ContentItemIndex>(x => x.Published && x.ContentType == Constants.Lever.ContentType && x.ContentItemId == contentItemId)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<IList<ContentItem>> GetFromAPICreateUpdate()
+        {
+            return await CreateUpdateAsync(await _postingApiService.GetPostings((await _siteService.GetSiteSettingsAsync()).As<LeverSettings>()));
+        }
+
+        #endregion
+
+        #region Private
+
+
+        private async Task<ContentItem> CreateAsync(IContentManager contentManager, Posting posting)
+        {
+            var contentItem = await contentManager.NewAsync(Constants.Lever.ContentType);
+            contentItem.DisplayText = posting.Text;
+            contentItem.SetLeverPostingPart(posting);
+
+            var autoroutePart = contentItem.As<AutoroutePart>();
+            autoroutePart.Path = $"{_slugService.Slugify(posting.Text)}/{posting.Id}";
+            contentItem.Apply(nameof(AutoroutePart), autoroutePart);
+
+            ContentExtensions.Apply(contentItem, contentItem);
+
+            await contentManager.CreateAsync(contentItem);
+            await contentManager.PublishAsync(contentItem);
+
+            return contentItem;
+        }
+
+        private async Task<IList<ContentItem>> CreateUpdateAsync(IList<Posting> postings)
         {
             var contentItems = new List<ContentItem>();
 
@@ -77,7 +111,7 @@ namespace Etch.OrchardCore.Lever.Services
                 // If not already exists create a new one
                 if (contentItem == null)
                 {
-                    contentItems.Add(await CreateAsync(contentManager, posting, formId));
+                    contentItems.Add(await CreateAsync(contentManager, posting));
                     continue;
                 }
 
@@ -86,48 +120,6 @@ namespace Etch.OrchardCore.Lever.Services
 
 
             return contentItems;
-        }
-
-        public async Task<IEnumerable<ContentItem>> GetAllAsync()
-        {
-            return await _session.Query<ContentItem>()
-                .With<ContentItemIndex>(x => x.Published && x.ContentType == Constants.Lever.ContentType)
-                .ListAsync();
-        }
-
-        public async Task<ContentItem> GetById(string contentItemId)
-        {
-            return await _session.Query<ContentItem>()
-                .With<ContentItemIndex>(x => x.Published && x.ContentType == Constants.Lever.ContentType && x.ContentItemId == contentItemId)
-                .FirstOrDefaultAsync();
-        }
-
-        #endregion
-
-        #region Private
-
-        private async Task<ContentItem> CreateAsync(IContentManager contentManager, Posting posting, string formId)
-        {
-            var contentItem = await contentManager.NewAsync(Constants.Lever.ContentType);
-            contentItem.DisplayText = posting.Text;
-            contentItem.SetLeverPostingPart(posting);
-
-            var autoroutePart = contentItem.As<AutoroutePart>();
-            autoroutePart.Path = $"{_slugService.Slugify(posting.Text)}/{posting.Id}";
-            contentItem.Apply(nameof(AutoroutePart), autoroutePart);
-
-            var leverApply = contentItem.GetOrCreate<ContentPart>("LeverPosting");
-            var contentPickerField = contentItem.GetOrCreate<ContentPickerField>("LeverApplyForm");
-            contentPickerField.ContentItemIds = new string[] { formId };
-            leverApply.Apply("LeverApplyForm", contentPickerField);
-            contentItem.Apply("LeverPosting", leverApply);
-
-            ContentExtensions.Apply(contentItem, contentItem);
-
-            await contentManager.CreateAsync(contentItem);
-            await contentManager.PublishAsync(contentItem);
-
-            return contentItem;
         }
 
         private async Task RemoveAsync(IContentManager contentManager, IList<ContentItem> contentItems)
@@ -156,7 +148,7 @@ namespace Etch.OrchardCore.Lever.Services
 
     public interface ILeverPostingService
     {
-        Task<IList<ContentItem>> GetFromAPICreateUpdate();
         Task<ContentItem> GetById(string contentItemId);
+        Task<IList<ContentItem>> GetFromAPICreateUpdate();
     }
 }
