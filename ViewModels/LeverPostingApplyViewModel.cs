@@ -11,19 +11,26 @@ namespace Etch.OrchardCore.Lever.ViewModels
 {
     public class LeverPostingApplyViewModel
     {
+        #region Constants
+
         public Dictionary<string, Dictionary<string, string>> Cards { get; set; }
         public CustomQuestions CustomQuestions { get; set; } = new CustomQuestions();
         public string Comments { get; set; }
         public Dictionary<string, string> Consent { get; set; }
+        [Required]
         public string Email { get; set; }
-        public IFormFile Resume { get; set; }
         [Required]
         public string Name { get; set; }
         public string Org { get; set; }
         [Required]
         public string Phone { get; set; }
         public string PostingId { get; set; }
+        public IFormFile Resume { get; set; }
         public Dictionary<string, string> Urls { get; set; }
+
+        #endregion
+
+        #region Implementation
 
         public string ToJson
         {
@@ -62,71 +69,21 @@ namespace Etch.OrchardCore.Lever.ViewModels
             }
         }
 
-        public MultipartFormDataContent ToDataFrom()
+        public MultipartFormDataContent ToFromData()
         {
             var httpContent = new MultipartFormDataContent
             {
-                // Double qoutes are required for keys as the Lever API doesn't accept the key without double qoutes.
-                // Solution from: https://stackoverflow.com/a/21874413
-                { new StringContent(!string.IsNullOrEmpty(Comments) ? Comments : string.Empty), @"""comments""" },
-                { new StringContent(!string.IsNullOrEmpty(Email) ? Email : string.Empty), @"""email""" },
-                { new StringContent(!string.IsNullOrEmpty(Name) ? Name : string.Empty), @"""name""" },
-                { new StringContent(!string.IsNullOrEmpty(Org) ? Org : string.Empty), @"""org""" },
-                { new StringContent(!string.IsNullOrEmpty(Phone) ? Phone : string.Empty), @"""phone""" }
+                { new StringContent(!string.IsNullOrEmpty(Comments) ? Comments : string.Empty), FormatKeyForLever("comments") },
+                { new StringContent(!string.IsNullOrEmpty(Email) ? Email : string.Empty), FormatKeyForLever("email") },
+                { new StringContent(!string.IsNullOrEmpty(Name) ? Name : string.Empty), FormatKeyForLever("name") },
+                { new StringContent(!string.IsNullOrEmpty(Org) ? Org : string.Empty), FormatKeyForLever("org") },
+                { new StringContent(!string.IsNullOrEmpty(Phone) ? Phone : string.Empty), FormatKeyForLever("phone") }
             };
 
-            if (Urls != null && Urls.Any())
-            {
-                foreach (var item in Urls)
-                {
-                    if (item.Value == null)
-                    {
-                        continue;
-                    }
-
-                    httpContent.Add(new StringContent(item.Value), string.Format(@"""urls[{0}]""", item.Key));
-                }
-            }
-
-            if (Consent != null && Consent.Any())
-            {
-                foreach (var item in Consent)
-                {
-                    if (item.Value == null)
-                    {
-                        continue;
-                    }
-
-                    httpContent.Add(new StringContent(item.Value.ToLower() == "on" ? "true" : "false"), string.Format(@"""consent[{0}]""", item.Key));
-                }
-            }
-
-            if (CustomQuestions != null && CustomQuestions.Fields.Any())
-            {
-                foreach (var item in CustomQuestions.Fields)
-                {
-                    if (item.Value == null)
-                    {
-                        continue;
-                    }
-
-                    httpContent.Add(new StringContent(item.Value), string.Format(@"""cards[{0}][{1}]""", CustomQuestions.Id, item.Key));
-                }
-            }
-
-            if (Resume != null)
-            {
-                var fileContent = new StreamContent(Resume.OpenReadStream())
-                {
-                    Headers =
-                    {
-                        ContentLength = Resume.Length,
-                        ContentType = new MediaTypeHeaderValue(Resume.ContentType)
-                    }
-                };
-
-                httpContent.Add(fileContent, @"""resume""", Resume.FileName);
-            }
+            SetUrlsToFromData(httpContent);
+            SetConsentToFromData(httpContent);
+            SetCardsToFromData(httpContent);
+            SetResumeToFromData(httpContent);
 
             return httpContent;
         }
@@ -158,6 +115,68 @@ namespace Etch.OrchardCore.Lever.ViewModels
             }
         }
 
+        #endregion
+
+        #region Private
+
+        private void SetUrlsToFromData(MultipartFormDataContent httpContent)
+        {
+            if (Urls == null || !Urls.Any())
+            {
+                return;
+            }
+
+            foreach (var item in Urls.Where(x => x.Value != null))
+            {
+                httpContent.Add(new StringContent(item.Value), FormatKeyForLever(string.Format("urls[{0}]", item.Key)));
+            }
+        }
+
+        private void SetConsentToFromData(MultipartFormDataContent httpContent)
+        {
+            if (Consent == null || !Consent.Any())
+            {
+                return;
+            }
+
+            foreach (var item in Consent.Where(x => x.Value != null))
+            {
+                httpContent.Add(new StringContent(item.Value.ToLower() == "on" ? "true" : "false"), string.Format(FormatKeyForLever("consent[{0}]"), item.Key));
+            }
+        }
+
+        private void SetCardsToFromData(MultipartFormDataContent httpContent)
+        {
+            if (CustomQuestions == null || !CustomQuestions.Fields.Any())
+            {
+                return;
+            }
+
+            foreach (var item in CustomQuestions.Fields.Where(x => x.Value != null))
+            {
+                httpContent.Add(new StringContent(item.Value), string.Format(FormatKeyForLever("cards[{0}][{1}]"), CustomQuestions.Id, item.Key));
+            }
+        }
+
+        private void SetResumeToFromData(MultipartFormDataContent httpContent)
+        {
+            if (Resume == null)
+            {
+                return;
+            }
+
+            var fileContent = new StreamContent(Resume.OpenReadStream())
+            {
+                Headers =
+                {
+                    ContentLength = Resume.Length,
+                    ContentType = new MediaTypeHeaderValue(Resume.ContentType)
+                }
+            };
+
+            httpContent.Add(fileContent, FormatKeyForLever("resume"), Resume.FileName);
+        }
+
         private string GetCustomQuestionId(string field)
         {
             var items = new Regex(@"\[(.*?)\]").Match(field);
@@ -169,6 +188,16 @@ namespace Etch.OrchardCore.Lever.ViewModels
 
             return Regex.Replace(items.Value, @"[\[\]]", "");
         }
+
+        private string FormatKeyForLever(string value)
+        {
+            // Double qoutes are required for keys as the Lever API doesn't accept the key without double qoutes.
+            // Solution from: https://stackoverflow.com/a/21874413
+
+            return string.Format(@"""{0}""", value);
+        }
+
+        #endregion
     }
 
     public class CustomQuestions
