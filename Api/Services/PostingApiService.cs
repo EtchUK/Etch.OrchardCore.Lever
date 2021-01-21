@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
 using Etch.OrchardCore.Lever.Api.Models.Dto;
+using Etch.OrchardCore.Lever.Extensions;
 using Etch.OrchardCore.Lever.Models;
 using Etch.OrchardCore.Lever.ViewModels;
 using Newtonsoft.Json;
