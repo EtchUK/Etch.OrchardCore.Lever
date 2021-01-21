@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -14,6 +16,7 @@ namespace Etch.OrchardCore.Lever.ViewModels
         public string Comments { get; set; }
         public Dictionary<string, string> Consent { get; set; }
         public string Email { get; set; }
+        public IFormFile Resume { get; set; }
         [Required]
         public string Name { get; set; }
         public string Org { get; set; }
@@ -57,6 +60,75 @@ namespace Etch.OrchardCore.Lever.ViewModels
 
                 return JsonConvert.SerializeObject(json);
             }
+        }
+
+        public MultipartFormDataContent ToDataFrom()
+        {
+            var httpContent = new MultipartFormDataContent
+            {
+                // Double qoutes are required for keys as the Lever API doesn't accept the key without double qoutes.
+                // Solution from: https://stackoverflow.com/a/21874413
+                { new StringContent(!string.IsNullOrEmpty(Comments) ? Comments : string.Empty), @"""comments""" },
+                { new StringContent(!string.IsNullOrEmpty(Email) ? Email : string.Empty), @"""email""" },
+                { new StringContent(!string.IsNullOrEmpty(Name) ? Name : string.Empty), @"""name""" },
+                { new StringContent(!string.IsNullOrEmpty(Org) ? Org : string.Empty), @"""org""" },
+                { new StringContent(!string.IsNullOrEmpty(Phone) ? Phone : string.Empty), @"""phone""" }
+            };
+
+            if (Urls != null && Urls.Any())
+            {
+                foreach (var item in Urls)
+                {
+                    if (item.Value == null)
+                    {
+                        continue;
+                    }
+
+                    httpContent.Add(new StringContent(item.Value), string.Format(@"""urls[{0}]""", item.Key));
+                }
+            }
+
+            if (Consent != null && Consent.Any())
+            {
+                foreach (var item in Consent)
+                {
+                    if (item.Value == null)
+                    {
+                        continue;
+                    }
+
+                    httpContent.Add(new StringContent(item.Value.ToLower() == "on" ? "true" : "false"), string.Format(@"""consent[{0}]""", item.Key));
+                }
+            }
+
+            if (CustomQuestions != null && CustomQuestions.Fields.Any())
+            {
+                foreach (var item in CustomQuestions.Fields)
+                {
+                    if (item.Value == null)
+                    {
+                        continue;
+                    }
+
+                    httpContent.Add(new StringContent(item.Value), string.Format(@"""cards[{0}][{1}]""", CustomQuestions.Id, item.Key));
+                }
+            }
+
+            if (Resume != null)
+            {
+                var fileContent = new StreamContent(Resume.OpenReadStream())
+                {
+                    Headers =
+                    {
+                        ContentLength = Resume.Length,
+                        ContentType = new MediaTypeHeaderValue(Resume.ContentType)
+                    }
+                };
+
+                httpContent.Add(fileContent, @"""resume""", Resume.FileName);
+            }
+
+            return httpContent;
         }
 
         public void UpdateCards(IFormCollection form)
