@@ -69,7 +69,7 @@ namespace Etch.OrchardCore.Lever.ViewModels
             }
         }
 
-        public MultipartFormDataContent ToFromData()
+        public MultipartFormDataContent ToFormData()
         {
             var httpContent = new MultipartFormDataContent
             {
