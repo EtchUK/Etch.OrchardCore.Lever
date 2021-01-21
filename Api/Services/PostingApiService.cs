@@ -83,7 +83,7 @@ namespace Etch.OrchardCore.Lever.Api.Services
             try
             {
                 var client = _clientFactory.CreateClient();
-                var response = await client.PostAsync($"{URL}{settings.Site}/{model.PostingId}?key={settings.ApiKey}", model.ToFromData());
+                var response = await client.PostAsync($"{URL}{settings.Site}/{model.PostingId}?key={settings.ApiKey}", model.ToFormData());
 
                 return JsonConvert.DeserializeObject<PostingResult>(await response.Content.ReadAsStringAsync());
             }
