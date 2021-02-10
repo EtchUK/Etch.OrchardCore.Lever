@@ -24,6 +24,7 @@ namespace Etch.OrchardCore.Lever.Extensions
             SetConsentToFromData(model, httpContent);
             SetCardsToFromData(model, httpContent);
             SetResumeToFromData(model, httpContent);
+            SetSurveyResponsesToFromData(model, httpContent);
 
             return httpContent;
         }
@@ -46,7 +47,7 @@ namespace Etch.OrchardCore.Lever.Extensions
                 return;
             }
 
-            foreach (var item in model.Consent.Where(x => x.Value != null))
+            foreach (var item in model.Consent.Where(x => !string.IsNullOrEmpty(x.Value)))
             {
                 httpContent.Add(new StringContent(item.Value.ToLower() == "on" ? "true" : "false"), string.Format(FormatKeyForLever("consent[{0}]"), item.Key));
             }
@@ -59,9 +60,22 @@ namespace Etch.OrchardCore.Lever.Extensions
                 return;
             }
 
-            foreach (var item in model.CustomQuestions.Fields.Where(x => x.Value != null))
+            foreach (var item in model.CustomQuestions.Fields.Where(x => !string.IsNullOrEmpty(x.Value)))
             {
-                httpContent.Add(new StringContent(item.Value), string.Format(FormatKeyForLever("cards[{0}][{1}]"), model.CustomQuestions.Id, item.Key));
+                httpContent.Add(new StringContent(item.Value), FormatKeyForLever(string.Format("cards[{0}][{1}]", model.CustomQuestions.Id, item.Key)));
+            }
+        }
+
+        private static void SetSurveyResponsesToFromData(LeverPostingApplyViewModel model, MultipartFormDataContent httpContent)
+        {
+            if (model.CustomSurveyQuestions == null || !model.CustomSurveyQuestions.Fields.Any())
+            {
+                return;
+            }
+
+            foreach (var item in model.CustomSurveyQuestions.Fields.Where(x => !string.IsNullOrEmpty(x.Value)))
+            {
+                httpContent.Add(new StringContent(item.Value), FormatKeyForLever(string.Format("surveysResponses[{0}][responses][{1}]", model.CustomSurveyQuestions.Id, item.Key)));
             }
         }
 
@@ -91,7 +105,7 @@ namespace Etch.OrchardCore.Lever.Extensions
                 return;
             }
 
-            foreach (var item in model.Urls.Where(x => x.Value != null))
+            foreach (var item in model.Urls.Where(x => !string.IsNullOrEmpty(x.Value)))
             {
                 httpContent.Add(new StringContent(item.Value), FormatKeyForLever(string.Format("urls[{0}]", item.Key)));
             }
