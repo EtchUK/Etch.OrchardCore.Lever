@@ -12,6 +12,7 @@ namespace Etch.OrchardCore.Lever.ViewModels
 
         public Dictionary<string, Dictionary<string, string>> Cards { get; set; }
         public CustomQuestions CustomQuestions { get; set; } = new CustomQuestions();
+        public CustomQuestions CustomSurveyQuestions { get; set; } = new CustomQuestions();
         public string Comments { get; set; }
         public Dictionary<string, string> Consent { get; set; }
         [Required]
@@ -52,6 +53,33 @@ namespace Etch.OrchardCore.Lever.ViewModels
                 }
 
                 CustomQuestions.Fields.Add($"field{count}", "");
+                count++;
+            }
+        }
+
+        public void UpdateSurveysResponses(IFormCollection form)
+        {
+            var count = 0;
+            foreach (var item in form.Keys)
+            {
+                if (!item.ToLower().StartsWith("surveysresponses"))
+                {
+                    continue;
+                }
+
+                if (CustomSurveyQuestions.Id == null)
+                {
+                    CustomSurveyQuestions.Id = GetCustomQuestionId(item);
+                }
+
+                if (!string.IsNullOrEmpty(form[item]))
+                {
+                    CustomSurveyQuestions.Fields.Add($"field{count}", form[item]);
+                    count++;
+                    continue;
+                }
+
+                CustomSurveyQuestions.Fields.Add($"field{count}", "");
                 count++;
             }
         }

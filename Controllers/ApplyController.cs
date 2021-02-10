@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Etch.OrchardCore.Lever.Api.Models.Dto;
 using Etch.OrchardCore.Lever.Api.Services;
 using Etch.OrchardCore.Lever.Extensions;
@@ -68,6 +67,7 @@ namespace Etch.OrchardCore.Lever.Controllers
 
             model.PostingId = JsonConvert.DeserializeObject<Posting>(posting.GetLeverPostingPart().Data).Id;
             model.UpdateCards(HttpContext.Request.Form);
+            model.UpdateSurveysResponses(HttpContext.Request.Form);
 
             var result = await _postingApiService.Apply(settings, model);
 
