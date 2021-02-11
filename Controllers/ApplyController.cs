@@ -85,7 +85,12 @@ namespace Etch.OrchardCore.Lever.Controllers
             var referer = Request.Headers["Referer"].ToString();
             referer = referer.Replace($"{Request.Scheme}://", "");
             referer = referer.Replace(Request.Host.ToString(), "");
-            referer = referer.Replace(Request.PathBase, "");
+
+            if (!string.IsNullOrWhiteSpace(Request.PathBase))
+            {
+                referer = referer.Replace(Request.PathBase, "");
+            }
+
             return referer;
         }
     }
