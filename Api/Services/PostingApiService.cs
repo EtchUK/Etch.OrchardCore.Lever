@@ -94,37 +94,15 @@ namespace Etch.OrchardCore.Lever.Api.Services
 
                 if (json.Ok)
                 {
-                    await _workflowManager.TriggerEventAsync(
-                   nameof(LeverPostingNotificationEvent),
-                   input: new
-                   {
-                       LeverPostingNotificationViewModel = new LeverPostingNotificationViewModel
-                       {
-                           IsSuccessful = true,
-                           LeverPostingApplyViewModel = model
-                       }
-                   },
-                   correlationId: model.PostingId
-               );
+                    await TriggerNotificationEvent(model, true, null);
                 }
 
                 return json;
             }
             catch (Exception e)
             {
-                await _workflowManager.TriggerEventAsync(
-                   nameof(LeverPostingNotificationEvent),
-                   input: new
-                   {
-                       LeverPostingNotificationViewModel = new LeverPostingNotificationViewModel
-                       {
-                           IsSuccessful = false,
-                           LeverPostingApplyViewModel = model
-                       }
-                   },
-                   correlationId: model.PostingId
-               );
-
+                await TriggerNotificationEvent(model, false, e.Message);
+                
                 Logger.Error(string.Format("{0}, Error apply for posting id: {1}", e, model.PostingId));
             }
 
@@ -143,6 +121,23 @@ namespace Etch.OrchardCore.Lever.Api.Services
             }
 
             return settings.Locations.Any(x => string.Equals(x, posting.Categories.Location, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private async Task TriggerNotificationEvent(LeverPostingApplyViewModel model, bool isSuccessful, string errorMessage)
+        {
+            await _workflowManager.TriggerEventAsync(
+                   nameof(LeverPostingNotificationEvent),
+                   input: new
+                   {
+                       LeverPostingNotificationViewModel = new LeverPostingNotificationViewModel
+                       {
+                           ErrorMessage = errorMessage,
+                           IsSuccessful = false,
+                           LeverPostingApplyViewModel = model
+                       }
+                   },
+                   correlationId: model.PostingId
+               );
         }
 
         #endregion
