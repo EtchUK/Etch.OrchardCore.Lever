@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.2.4-rc2</Version>
+    <Version>0.2.5-rc2</Version>
     <PackageId>Etch.OrchardCore.Lever</PackageId>
     <Title>Lever</Title>
     <Authors>Etch</Authors>
