@@ -71,9 +71,13 @@ namespace Etch.OrchardCore.Lever.Controllers
 
             var result = await _postingApiService.Apply(settings, model);
 
-            if (!result.Ok)
+            if (result == null || !result.Ok)
             {
-                ModelState.AddModelError("error", result.Error);
+                if (result != null)
+                {
+                    ModelState.AddModelError("error", result.Error);
+                }
+
                 return new RedirectResult(referer);
             }
 

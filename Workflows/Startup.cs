@@ -12,6 +12,7 @@ namespace Etch.OrchardCore.Lever.Workflows
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddActivity<LeverPostingTask, LeverPostingTaskDisplay>();
+            services.AddActivity<LeverPostingNotificationEvent, LeverPostingNotificationDisplay>();
         }
     }
 }
