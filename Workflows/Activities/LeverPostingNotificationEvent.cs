@@ -39,7 +39,7 @@ namespace Etch.OrchardCore.Lever.Workflows.Activities
 
             SetLeverPostingNotificationViewModelProperties(workflowContext, model);
 
-            if (model.IsSuccessful == false)
+            if (!model.IsSuccessful)
             {
                 return Outcomes("Failed");
             }
