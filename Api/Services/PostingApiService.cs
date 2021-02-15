@@ -132,7 +132,7 @@ namespace Etch.OrchardCore.Lever.Api.Services
                        LeverPostingNotificationViewModel = new LeverPostingNotificationViewModel
                        {
                            ErrorMessage = errorMessage,
-                           IsSuccessful = false,
+                           IsSuccessful = isSuccessful,
                            LeverPostingApplyViewModel = model
                        }
                    },
