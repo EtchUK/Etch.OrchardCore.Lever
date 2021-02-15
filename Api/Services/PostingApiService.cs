@@ -8,7 +8,10 @@ using Etch.OrchardCore.Lever.Api.Models.Dto;
 using Etch.OrchardCore.Lever.Extensions;
 using Etch.OrchardCore.Lever.Models;
 using Etch.OrchardCore.Lever.ViewModels;
+using Etch.OrchardCore.Lever.Workflows.Activities;
+using Etch.OrchardCore.Lever.Workflows.ViewModels;
 using Newtonsoft.Json;
+using OrchardCore.Workflows.Services;
 
 namespace Etch.OrchardCore.Lever.Api.Services
 {
@@ -24,14 +27,16 @@ namespace Etch.OrchardCore.Lever.Api.Services
 
         private readonly IHttpClientFactory _clientFactory;
         public ILogger Logger { get; set; } = new NullLogger();
+        private readonly IWorkflowManager _workflowManager;
 
         #endregion Dependencies
 
         #region Constructor
 
-        public PostingApiService(IHttpClientFactory clientFactory)
+        public PostingApiService(IHttpClientFactory clientFactory, IWorkflowManager workflowManager)
         {
             _clientFactory = clientFactory;
+            _workflowManager = workflowManager;
         }
 
         #endregion
@@ -85,10 +90,41 @@ namespace Etch.OrchardCore.Lever.Api.Services
                 var client = _clientFactory.CreateClient();
                 var response = await client.PostAsync($"{URL}{settings.Site}/{model.PostingId}?key={settings.ApiKey}", model.ToFormData());
 
-                return JsonConvert.DeserializeObject<PostingResult>(await response.Content.ReadAsStringAsync());
+                var json = JsonConvert.DeserializeObject<PostingResult>(await response.Content.ReadAsStringAsync());
+
+                if (json.Ok)
+                {
+                    await _workflowManager.TriggerEventAsync(
+                   nameof(LeverPostingNotificationEvent),
+                   input: new
+                   {
+                       LeverPostingNotificationViewModel = new LeverPostingNotificationViewModel
+                       {
+                           IsSuccessful = true,
+                           LeverPostingApplyViewModel = model
+                       }
+                   },
+                   correlationId: model.PostingId
+               );
+                }
+
+                return json;
             }
             catch (Exception e)
             {
+                await _workflowManager.TriggerEventAsync(
+                   nameof(LeverPostingNotificationEvent),
+                   input: new
+                   {
+                       LeverPostingNotificationViewModel = new LeverPostingNotificationViewModel
+                       {
+                           IsSuccessful = false,
+                           LeverPostingApplyViewModel = model
+                       }
+                   },
+                   correlationId: model.PostingId
+               );
+
                 Logger.Error(string.Format("{0}, Error apply for posting id: {1}", e, model.PostingId));
             }
 

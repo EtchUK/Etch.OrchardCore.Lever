@@ -34,12 +34,12 @@ namespace Etch.OrchardCore.Lever
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<IPostingApiService, PostingApiService>();
             services.AddSingleton<IIndexProvider, LeverPostingPartIndexProvider>();
 
             services.AddContentPart<LeverPostingPart>()
                     .UseDisplayDriver<LeverPostingPartDisplayDriver>();
 
+            services.AddScoped<IPostingApiService, PostingApiService>();
             services.AddScoped<IBackgroundTask, LeverPostingBackgroundTask>();
             services.AddScoped<ILeverPostingService, LeverPostingService>();
             services.AddScoped<INavigationProvider, AdminMenu>();
