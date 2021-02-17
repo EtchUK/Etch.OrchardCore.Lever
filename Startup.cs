@@ -27,6 +27,8 @@ namespace Etch.OrchardCore.Lever
         static Startup()
         {
             TemplateContext.GlobalMemberAccessStrategy.Register<LeverPostingPartViewModel>();
+            TemplateContext.GlobalMemberAccessStrategy.Register<LeverPostingApplyViewModel>();
+            TemplateContext.GlobalMemberAccessStrategy.Register<CustomQuestions>();
             TemplateContext.GlobalMemberAccessStrategy.Register<Posting>();
             TemplateContext.GlobalMemberAccessStrategy.Register<PostingCategories>();
         }

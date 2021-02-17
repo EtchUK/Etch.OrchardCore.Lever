@@ -76,9 +76,13 @@ namespace Etch.OrchardCore.Lever.Controllers
                 if (result != null)
                 {
                     ModelState.AddModelError("error", result.Error);
+
+                    // If there is a validation error from API
+                    // we send the user back to the page
+                    return new RedirectResult(referer);
                 }
 
-                return new RedirectResult(referer);
+                return new RedirectResult($"{settings.SuccessUrl}");
             }
 
             return new RedirectResult($"{settings.SuccessUrl}?applicationId={result.ApplicationId}&contentItemId={contentItem.ContentItemId}" ?? "/");
