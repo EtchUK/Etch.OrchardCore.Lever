@@ -31,6 +31,7 @@ namespace Etch.OrchardCore.Lever
             TemplateContext.GlobalMemberAccessStrategy.Register<CustomQuestions>();
             TemplateContext.GlobalMemberAccessStrategy.Register<Posting>();
             TemplateContext.GlobalMemberAccessStrategy.Register<PostingCategories>();
+            TemplateContext.GlobalMemberAccessStrategy.Register<PostingLists>();
         }
 
         public override void ConfigureServices(IServiceCollection services)
