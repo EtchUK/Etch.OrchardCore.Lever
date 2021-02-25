@@ -58,7 +58,9 @@ By default various fields are being indexed to enable implementation of a compre
 
 ### Features
 
-There is a RSS feed feature included in this module which allows users to access RSS feed in [MCV jobs](https://mcvuk.careerwebsite.com/r/jobs/post/batch_specs.cfm) format.   
+#### Feeds
+
+There is a XML feed feature included in this module which allows users to access XML feed in [MCV jobs](https://mcvuk.careerwebsite.com/r/jobs/post/batch_specs.cfm) format.   
 The URL to access the feed is `/postings/feed/mcv`.
 
 ## Packaging

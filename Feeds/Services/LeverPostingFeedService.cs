@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Etch.OrchardCore.Lever.Api.Models.Dto;
@@ -76,8 +77,8 @@ namespace Etch.OrchardCore.Lever.Services
 
             foreach (var list in lists)
             {
-                text = $"{text} {list.Text} \n";
-                text = $"{text} {ReplaceLists(list.Content)} \n\n";
+                text = $"{text} {list.Text} {Environment.NewLine}";
+                text = $"{text} {ReplaceLists(list.Content)} {Environment.NewLine}{Environment.NewLine}";
             }
 
             return text;
@@ -85,10 +86,7 @@ namespace Etch.OrchardCore.Lever.Services
 
         private string ReplaceLists(string text)
         {
-            text = text.Replace("</li>", "\n");
-            text = Regex.Replace(text, "<[^>]*(>|$)", string.Empty);
-
-            return text;
+            return Regex.Replace(text.Replace("</li>", Environment.NewLine), "<[^>]*(>|$)", string.Empty);
         }
 
         #endregion
