@@ -1,6 +1,6 @@
 {
     "name": "etch.orchardcore.lever",
-    "version": "0.2.8",
+    "version": "0.2.9",
     "description": "Module for Orchard Core providing integration with Lever.",
     "scripts": {
         "build": "webpack",
