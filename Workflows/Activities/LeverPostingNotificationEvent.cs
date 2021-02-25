@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Etch.OrchardCore.Lever.Workflows.ViewModels;
 using Microsoft.Extensions.Localization;
+using OrchardCore.Modules;
 using OrchardCore.Workflows.Abstractions.Models;
 using OrchardCore.Workflows.Activities;
 using OrchardCore.Workflows.Helpers;
@@ -8,6 +9,7 @@ using OrchardCore.Workflows.Models;
 
 namespace Etch.OrchardCore.Lever.Workflows.Activities
 {
+    [Feature("Etch.OrchardCore.Lever")]
     public class LeverPostingNotificationEvent : Activity, IEvent
     {
         #region Dependencies

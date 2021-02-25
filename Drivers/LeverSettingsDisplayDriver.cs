@@ -10,10 +10,12 @@ using Newtonsoft.Json;
 using OrchardCore.DisplayManagement.Entities;
 using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
+using OrchardCore.Modules;
 using OrchardCore.Settings;
 
 namespace Etch.OrchardCore.Lever.Drivers
 {
+    [Feature("Etch.OrchardCore.Lever")]
     public class LeverSettingsDisplayDriver : SectionDisplayDriver<ISite, LeverSettings>
     {
         #region Dependencies
