@@ -33,7 +33,7 @@ namespace Etch.OrchardCore.Lever.Workflows.Activities
 
         public override LocalizedString Category => T["Lever"];
 
-        public override LocalizedString DisplayText => T["Posting apply event"];
+        public override LocalizedString DisplayText => T["Lever posting apply event"];
 
         public override ActivityExecutionResult Execute(WorkflowExecutionContext workflowContext, ActivityContext activityContext)
         {
