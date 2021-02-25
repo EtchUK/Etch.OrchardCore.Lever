@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 using Etch.OrchardCore.Lever.Services;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using OrchardCore.Modules;
 using OrchardCore.Workflows.Abstractions.Models;
 using OrchardCore.Workflows.Activities;
 using OrchardCore.Workflows.Models;
 
 namespace Etch.OrchardCore.Lever.Workflows.Activities
 {
+    [Feature("Etch.OrchardCore.Lever")]
     public class LeverPostingTask : TaskActivity
     {
         #region Constants

@@ -22,6 +22,7 @@ using YesSql.Indexes;
 
 namespace Etch.OrchardCore.Lever
 {
+    [Feature("Etch.OrchardCore.Lever")]
     public class Startup : StartupBase
     {
         static Startup()

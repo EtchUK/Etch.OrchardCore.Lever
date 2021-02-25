@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.DisplayManagement.Views;
+using OrchardCore.Modules;
 
 namespace Etch.OrchardCore.Lever.Drivers
 {
+    [Feature("Etch.OrchardCore.Lever")]
     public class LeverPostingPartDisplayDriver : ContentPartDisplayDriver<LeverPostingPart>
     {
         public override IDisplayResult Display(LeverPostingPart part, BuildPartDisplayContext context)
