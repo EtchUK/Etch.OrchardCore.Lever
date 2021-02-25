@@ -1,6 +1,7 @@
 ﻿using Etch.OrchardCore.Lever.Api.Services;
 using Etch.OrchardCore.Lever.Services;
 using Microsoft.Extensions.DependencyInjection;
+using OrchardCore.Data.Migration;
 using OrchardCore.Modules;
 
 namespace Etch.OrchardCore.Lever.Feeds
@@ -13,6 +14,7 @@ namespace Etch.OrchardCore.Lever.Feeds
             services.AddMvc();
             services.AddHttpClient();
 
+            services.AddScoped<IDataMigration, Migrations>();
             services.AddScoped<IPostingApiService, PostingApiService>();
             services.AddScoped<ILeverPostingService, LeverPostingService>();
             services.AddScoped<ILeverPostingFeedService, LeverPostingFeedService>();

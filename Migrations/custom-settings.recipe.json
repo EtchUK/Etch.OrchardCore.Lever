@@ -1,0 +1,77 @@
+{
+    "name": "Etch.OrchardCore.Lever.Feeds",
+    "displayName": "Lever custom settings",
+    "description": "Provides lever custom settings for feeds.",
+    "author": "Etch",
+    "website": "https://etchuk.com",
+    "version": "0.2.8",
+    "issetuprecipe": false,
+    "categories": ["lever"],
+    "tags": ["lever"],
+    "steps": [
+        {
+            "name": "ContentDefinition",
+            "ContentTypes": [
+                {
+                    "Name": "LeverFeedSettings",
+                    "DisplayName": "Lever Feed Settings",
+                    "Settings": {
+                        "ContentTypeSettings": {
+                            "Stereotype": "CustomSettings"
+                        },
+                        "FullTextAspectSettings": {}
+                    },
+                    "ContentTypePartDefinitionRecords": [
+                        {
+                            "PartName": "LeverFeedSettings",
+                            "Name": "LeverFeedSettings",
+                            "Settings": {
+                                "ContentTypePartSettings": {
+                                    "Position": "0"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "ContentParts": [
+                {
+                    "Name": "LeverFeedSettings",
+                    "Settings": {},
+                    "ContentPartFieldDefinitionRecords": [
+                        {
+                            "FieldName": "TextField",
+                            "Name": "SiteId",
+                            "Settings": {
+                                "ContentPartFieldSettings": {
+                                    "DisplayName": "Site Id",
+                                    "Position": "1"
+                                }
+                            }
+                        },
+                        {
+                            "FieldName": "TextField",
+                            "Name": "Country",
+                            "Settings": {
+                                "ContentPartFieldSettings": {
+                                    "DisplayName": "Country",
+                                    "Position": "2"
+                                }
+                            }
+                        },
+                        {
+                            "FieldName": "TextField",
+                            "Name": "SiteName",
+                            "Settings": {
+                                "ContentPartFieldSettings": {
+                                    "DisplayName": "Site Name",
+                                    "Position": "0"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
