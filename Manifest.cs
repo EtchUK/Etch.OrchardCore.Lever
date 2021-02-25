@@ -9,3 +9,10 @@ using OrchardCore.Modules.Manifest;
     Website = "https://etchuk.com",
     Dependencies = new string[] { "OrchardCore.BackgroundTasks", "OrchardCore.Forms" }
 )]
+
+[assembly: Feature(
+    Id = "Etch.OrchardCore.Lever.Feeds",
+    Name = "Lever posting feeds",
+    Description = "Enable RSS feed for lever postings.",
+    Category = "Content"
+)]

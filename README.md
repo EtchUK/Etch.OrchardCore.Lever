@@ -56,6 +56,11 @@ Manually trigger update of postings from API. By default there is a background t
 
 By default various fields are being indexed to enable implementation of a comprehensive job search. Title, team, location & commitment are all indexed and an example query has been provided.
 
+### Features
+
+There is a RSS feed feature included in this module which allows users to access RSS feed in [MCV jobs](https://mcvuk.careerwebsite.com/r/jobs/post/batch_specs.cfm) format.   
+The URL to access the feed is `/postings/feed/mcv`.
+
 ## Packaging
 
 When the theme is compiled (using `dotnet build`) it's configured to generate a `.nupkg` file (this can be found in `\bin\Debug\` or `\bin\Release`).

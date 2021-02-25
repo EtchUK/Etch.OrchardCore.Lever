@@ -1,10 +1,12 @@
-﻿using Castle.Core.Logging;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Castle.Core.Logging;
 using Etch.OrchardCore.Lever.Api.Models.Dto;
 using Etch.OrchardCore.Lever.Api.Services;
 using Etch.OrchardCore.Lever.Extensions;
 using Etch.OrchardCore.Lever.Models;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using OrchardCore.Autoroute.Models;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Records;
@@ -12,9 +14,6 @@ using OrchardCore.Entities;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Liquid;
 using OrchardCore.Settings;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using YesSql;
 
 namespace Etch.OrchardCore.Lever.Services
@@ -154,6 +153,7 @@ namespace Etch.OrchardCore.Lever.Services
 
     public interface ILeverPostingService
     {
+        Task<IEnumerable<ContentItem>> GetAllAsync();
         Task<ContentItem> GetById(string contentItemId);
         Task<IList<ContentItem>> GetFromAPICreateUpdate();
     }
