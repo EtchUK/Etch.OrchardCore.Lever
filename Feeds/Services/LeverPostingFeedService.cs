@@ -48,15 +48,16 @@ namespace Etch.OrchardCore.Lever.Services
 
                 var postingPart = JsonConvert.DeserializeObject<Posting>(posting.GetLeverPostingPart().Data);
 
-                job.Add(new XElement("site_id", new XCData(settings.GetSiteIdValue())));
+                job.Add(new XElement("site_id", new XCData(settings.GetSiteIdValue() ?? "")));
 
                 jobInfo.Add(new XElement("company", new XCData(settings.GetSiteNameValue())));
                 jobInfo.Add(new XElement("description", new XCData($"{postingPart.DescriptionPlain} {GetLists(postingPart.Lists)} {postingPart.AdditionalPlain}")));
-                jobInfo.Add(new XElement("name", new XCData(postingPart.Text)));
-                jobInfo.Add(new XElement("position", new XCData(postingPart.Categories.Team)));
+                jobInfo.Add(new XElement("name", new XCData(postingPart.Id)));
+                jobInfo.Add(new XElement("position", new XCData(postingPart.Text)));
 
-                location.Add(new XElement("country", new XCData(settings.GetCountryValue())));
-                location.Add(new XElement("state", new XCData(postingPart.Categories.Location)));
+                location.Add(new XElement("country", new XCData(settings.GetCountryValue() ?? "")));
+                location.Add(new XElement("state", new XCData(settings.GetSteteValue() ?? "")));
+                location.Add(new XElement("function", new XCData(settings.GetFunctionValue() ?? "")));
 
                 job.Add(jobInfo);
                 job.Add(location);

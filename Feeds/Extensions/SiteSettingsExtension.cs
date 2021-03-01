@@ -30,5 +30,21 @@ namespace Etch.OrchardCore.Lever.Feeds.Extensions
                     .Get<TextField>("Country")?
                     .Text;
         }
+
+        public static string GetSteteValue(this ISite siteSettings)
+        {
+            return siteSettings?.As<ContentItem>("LeverFeedSettings")?
+                    .Get<ContentPart>("LeverFeedSettings")?
+                    .Get<TextField>("State")?
+                    .Text;
+        }
+
+        public static string GetFunctionValue(this ISite siteSettings)
+        {
+            return siteSettings?.As<ContentItem>("LeverFeedSettings")?
+                    .Get<ContentPart>("LeverFeedSettings")?
+                    .Get<TextField>("Function")?
+                    .Text;
+        }
     }
 }
