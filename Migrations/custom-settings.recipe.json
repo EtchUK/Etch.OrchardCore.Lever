@@ -9,69 +9,101 @@
     "categories": ["lever"],
     "tags": ["lever"],
     "steps": [
+    {
+        "name": "ContentDefinition",
+        "ContentTypes": [
         {
-            "name": "ContentDefinition",
-            "ContentTypes": [
-                {
-                    "Name": "LeverFeedSettings",
-                    "DisplayName": "Lever Feed Settings",
-                    "Settings": {
-                        "ContentTypeSettings": {
-                            "Stereotype": "CustomSettings"
-                        },
-                        "FullTextAspectSettings": {}
-                    },
-                    "ContentTypePartDefinitionRecords": [
-                        {
-                            "PartName": "LeverFeedSettings",
-                            "Name": "LeverFeedSettings",
-                            "Settings": {
-                                "ContentTypePartSettings": {
-                                    "Position": "0"
-                                }
-                            }
-                        }
-                    ]
+            "Name": "LeverFeedSettings",
+            "DisplayName": "Lever Feed Settings",
+            "Settings": {
+            "ContentTypeSettings": {
+                "Stereotype": "CustomSettings"
+            },
+            "FullTextAspectSettings": {}
+            },
+            "ContentTypePartDefinitionRecords": [
+            {
+                "PartName": "LeverFeedSettings",
+                "Name": "LeverFeedSettings",
+                "Settings": {
+                "ContentTypePartSettings": {
+                    "Position": "0"
                 }
-            ],
-            "ContentParts": [
-                {
-                    "Name": "LeverFeedSettings",
-                    "Settings": {},
-                    "ContentPartFieldDefinitionRecords": [
-                        {
-                            "FieldName": "TextField",
-                            "Name": "SiteId",
-                            "Settings": {
-                                "ContentPartFieldSettings": {
-                                    "DisplayName": "Site Id",
-                                    "Position": "1"
-                                }
-                            }
-                        },
-                        {
-                            "FieldName": "TextField",
-                            "Name": "Country",
-                            "Settings": {
-                                "ContentPartFieldSettings": {
-                                    "DisplayName": "Country",
-                                    "Position": "2"
-                                }
-                            }
-                        },
-                        {
-                            "FieldName": "TextField",
-                            "Name": "SiteName",
-                            "Settings": {
-                                "ContentPartFieldSettings": {
-                                    "DisplayName": "Site Name",
-                                    "Position": "0"
-                                }
-                            }
-                        }
-                    ]
                 }
+            }
             ]
         }
+        ],
+        "ContentParts": [
+        {
+            "Name": "LeverFeedSettings",
+            "Settings": {},
+            "ContentPartFieldDefinitionRecords": [
+            {
+                "FieldName": "TextField",
+                "Name": "SiteId",
+                "Settings": {
+                "ContentPartFieldSettings": {
+                    "DisplayName": "Site Id",
+                    "Position": "1"
+                }
+                }
+            },
+            {
+                "FieldName": "TextField",
+                "Name": "Country",
+                "Settings": {
+                "ContentPartFieldSettings": {
+                    "DisplayName": "Country",
+                    "Position": "2"
+                },
+                "TextFieldSettings": {
+                    "Hint": "Use the key from list provided here: https://mcvuk.careerwebsite.com/r/jobs/post/@batch_specs/includes/key.cfm?site_id=22898&id=55606"
+                },
+                "ContentIndexSettings": {}
+                }
+            },
+            {
+                "FieldName": "TextField",
+                "Name": "SiteName",
+                "Settings": {
+                "ContentPartFieldSettings": {
+                    "DisplayName": "Site Name",
+                    "Position": "0"
+                }
+                }
+            },
+            {
+                "FieldName": "TextField",
+                "Name": "State",
+                "Settings": {
+                "ContentPartFieldSettings": {
+                    "DisplayName": "State",
+                    "Position": "3"
+                },
+                "TextFieldSettings": {
+                    "Hint": "Use the key from list provided here: https://mcvuk.careerwebsite.com/r/jobs/post/@batch_specs/includes/key.cfm?site_id=22898&id=55466"
+                },
+                "ContentIndexSettings": {}
+                }
+            },
+            {
+                "FieldName": "TextField",
+                "Name": "Function",
+                "Settings": {
+                "ContentPartFieldSettings": {
+                    "DisplayName": "Function",
+                    "Position": "4"
+                },
+                "TextFieldSettings": {
+                    "Hint": "Use the key from list provided here: https://mcvuk.careerwebsite.com/r/jobs/post/@batch_specs/includes/key.cfm?site_id=22898&id=55481"
+                },
+                "ContentIndexSettings": {}
+                }
+            }
+            ]
+        }
+        ]
+    }
     ]
 }
