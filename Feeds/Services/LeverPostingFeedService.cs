@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -51,8 +51,8 @@ namespace Etch.OrchardCore.Lever.Services
 
                 job.Add(new XElement("site_id", new XCData(settings.GetSiteIdValue() ?? "")));
 
-                jobInfo.Add(new XElement("company", new XCData(settings.GetSiteNameValue())));
-                jobInfo.Add(new XElement("description", new XCData($"{postingPart.DescriptionPlain} {GetLists(postingPart.Lists)} {postingPart.AdditionalPlain}")));
+                jobInfo.Add(new XElement("company", new XCData(settings.GetSiteNameValue() ?? "")));
+                jobInfo.Add(new XElement("description", new XCData($"{CleanDescription(postingPart.DescriptionPlain)} {GetLists(postingPart.Lists)} {CleanDescription(postingPart.Additional)}")));
                 jobInfo.Add(new XElement("name", new XCData(postingPart.Id)));
                 jobInfo.Add(new XElement("position", new XCData(postingPart.Text)));
 
@@ -83,15 +83,15 @@ namespace Etch.OrchardCore.Lever.Services
             foreach (var list in lists)
             {
                 text = $"{text} {list.Text} {Environment.NewLine}";
-                text = $"{text} {ReplaceLists(list.Content)} {Environment.NewLine}{Environment.NewLine}";
+                text = $"{text} {list.Content} {Environment.NewLine}{Environment.NewLine}";
             }
 
             return text;
         }
 
-        private string ReplaceLists(string text)
+        private string CleanDescription(string text)
         {
-            return Regex.Replace(text.Replace("</li>", Environment.NewLine), "<[^>]*(>|$)", string.Empty);
+            return text.Replace(Environment.NewLine, "<br />").Replace("&nbsp;", "");
         }
 
         #endregion
