@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -45,6 +45,7 @@ namespace Etch.OrchardCore.Lever.Services
                 var job = new XElement("job");
                 var jobInfo = new XElement("job_info");
                 var location = new XElement("location");
+                var contact = new XElement("contact");
 
                 var postingPart = JsonConvert.DeserializeObject<Posting>(posting.GetLeverPostingPart().Data);
 
@@ -59,8 +60,11 @@ namespace Etch.OrchardCore.Lever.Services
                 location.Add(new XElement("state", new XCData(settings.GetSteteValue() ?? "")));
                 location.Add(new XElement("function", new XCData(settings.GetFunctionValue() ?? "")));
 
+                contact.Add(new XElement("apply_url", new XCData(postingPart.ApplyUrl)));
+
                 job.Add(jobInfo);
                 job.Add(location);
+                job.Add(contact);
                 jobs.Add(job);
             }
 
