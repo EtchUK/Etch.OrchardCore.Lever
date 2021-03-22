@@ -3,7 +3,7 @@ using OrchardCore.Modules.Manifest;
 [assembly: Module(
     Author = "Etch",
     Name = "Lever",
-    Version = "0.2.11",
+    Version = "0.2.12",
     Website = "https://etchuk.com"
 )]
 
