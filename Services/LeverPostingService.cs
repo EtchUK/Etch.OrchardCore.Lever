@@ -102,11 +102,10 @@ namespace Etch.OrchardCore.Lever.Services
             var postingContentItems = await GetAllAsync();
 
             // Remove old postings
-            _logger.LogInformation($"Lever: Remove content items from API");
             await RemoveAsync(contentManager, postingContentItems.Where(x => !postings.Any(y => y.Id == x.As<LeverPostingPart>().LeverId)).ToList());
 
             // Add/Update posings
-            _logger.LogInformation($"Lever: Add/Update content items from API");
+            _logger.LogInformation($"Lever: Add/Update ({0}) content items", postings.Count());
             foreach (var posting in postings)
             {
                 var contentItem = postingContentItems.SingleOrDefault(x => x.As<LeverPostingPart>().LeverId == posting.Id);
@@ -127,6 +126,7 @@ namespace Etch.OrchardCore.Lever.Services
 
         private async Task RemoveAsync(IContentManager contentManager, IList<ContentItem> contentItems)
         {
+            _logger.LogInformation($"Lever: Removing ({0}) content items", contentItems.Count());
             foreach (var contentItem in contentItems)
             {
                 await contentManager.RemoveAsync(contentItem);
