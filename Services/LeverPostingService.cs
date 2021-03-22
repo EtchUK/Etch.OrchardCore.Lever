@@ -7,6 +7,7 @@ using Etch.OrchardCore.Lever.Api.Services;
 using Etch.OrchardCore.Lever.Extensions;
 using Etch.OrchardCore.Lever.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using OrchardCore.Autoroute.Models;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Records;
@@ -22,8 +23,7 @@ namespace Etch.OrchardCore.Lever.Services
     {
         #region Dependancies
 
-        public ILogger Logger { get; set; } = new NullLogger();
-
+        private readonly ILogger<LeverPostingService> _logger;
         private readonly IPostingApiService _postingApiService;
         private readonly ISession _session;
         private readonly IShellHost _shellHost;
@@ -35,8 +35,9 @@ namespace Etch.OrchardCore.Lever.Services
 
         #region Constructor
 
-        public LeverPostingService(IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings, ISiteService siteService, ISlugService slugService)
+        public LeverPostingService(ILogger<LeverPostingService> logger, IPostingApiService postingApiService, ISession session, IShellHost shellHost, ShellSettings shellSettings, ISiteService siteService, ISlugService slugService)
         {
+            _logger = logger;
             _postingApiService = postingApiService;
             _session = session;
             _shellSettings = shellSettings;
@@ -101,9 +102,11 @@ namespace Etch.OrchardCore.Lever.Services
             var postingContentItems = await GetAllAsync();
 
             // Remove old postings
+            _logger.LogInformation($"Lever: Remove content items from API");
             await RemoveAsync(contentManager, postingContentItems.Where(x => !postings.Any(y => y.Id == x.As<LeverPostingPart>().LeverId)).ToList());
 
             // Add/Update posings
+            _logger.LogInformation($"Lever: Add/Update content items from API");
             foreach (var posting in postings)
             {
                 var contentItem = postingContentItems.SingleOrDefault(x => x.As<LeverPostingPart>().LeverId == posting.Id);

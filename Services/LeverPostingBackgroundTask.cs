@@ -30,9 +30,18 @@ namespace Etch.OrchardCore.Lever.Services
 
         public async Task DoWorkAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
         {
-            _logger.LogDebug($"Getting posts from Lever API");
+            _logger.LogInformation($"Lever Background Task: Getting posts from Lever API");
 
-            await _leverPostingService.GetFromAPICreateUpdate();
+            try
+            {
+                await _leverPostingService.GetFromAPICreateUpdate();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+            }
+
+            _logger.LogInformation($"Lever Background Task: Completed getting posts from Lever API");
         }
 
         #endregion
