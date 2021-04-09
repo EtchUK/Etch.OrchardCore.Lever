@@ -11,10 +11,10 @@ namespace Etch.OrchardCore.Lever
     {
         public AdminMenu(IStringLocalizer<AdminMenu> localizer)
         {
-            T = localizer;
+            S = localizer;
         }
 
-        public IStringLocalizer T { get; set; }
+        public IStringLocalizer S { get; set; }
 
         public Task BuildNavigationAsync(string name, NavigationBuilder builder)
         {
@@ -24,13 +24,13 @@ namespace Etch.OrchardCore.Lever
             }
 
             builder
-                .Add(T["Configuration"], configuration => configuration
-                    .Add(T["Lever"], settings => settings
-                        .Add(T["Api"], T["Api"], layers => layers
-                            .Action("Index", "Admin", new { area = "OrchardCore.Settings", groupId = Constants.GroupId })
-                            .Permission(Permissions.ManageLeverSettings)
-                            .LocalNav()
-                        )));
+                .Add(S["Configuration"], configuration => configuration
+                    .Add(S["Lever"], S["Lever"].PrefixPosition(), settings => settings
+                        .AddClass("lever").Id("lever")
+                        .Action("Index", "Admin", new { area = "OrchardCore.Settings", groupId = Constants.GroupId })
+                        .Permission(Permissions.ManageLeverSettings)
+                        .LocalNav()
+                    ));
 
             return Task.CompletedTask;
         }

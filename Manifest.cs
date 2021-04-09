@@ -3,7 +3,7 @@ using OrchardCore.Modules.Manifest;
 [assembly: Module(
     Author = "Etch",
     Name = "Lever",
-    Version = "0.2.12",
+    Version = "1.0.0",
     Website = "https://etchuk.com"
 )]
 
@@ -12,7 +12,7 @@ using OrchardCore.Modules.Manifest;
     Name = "Lever posting",
     Description = "Lever job API with ability to apply for a job.",
     Category = "Content",
-    Dependencies = new string[] { "OrchardCore.BackgroundTasks", "OrchardCore.Forms" }
+    Dependencies = new string[] { "OrchardCore.BackgroundTasks", "OrchardCore.Forms", "OrchardCore.Workflows" }
 )]
 
 [assembly: Feature(

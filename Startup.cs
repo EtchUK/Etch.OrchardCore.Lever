@@ -25,16 +25,6 @@ namespace Etch.OrchardCore.Lever
     [Feature("Etch.OrchardCore.Lever")]
     public class Startup : StartupBase
     {
-        static Startup()
-        {
-            TemplateContext.GlobalMemberAccessStrategy.Register<LeverPostingPartViewModel>();
-            TemplateContext.GlobalMemberAccessStrategy.Register<LeverPostingApplyViewModel>();
-            TemplateContext.GlobalMemberAccessStrategy.Register<CustomQuestions>();
-            TemplateContext.GlobalMemberAccessStrategy.Register<Posting>();
-            TemplateContext.GlobalMemberAccessStrategy.Register<PostingCategories>();
-            TemplateContext.GlobalMemberAccessStrategy.Register<PostingLists>();
-        }
-
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
@@ -56,6 +46,16 @@ namespace Etch.OrchardCore.Lever
             services.AddLiquidFilter<TeamOptionsFilter>("lever_team_options");
 
             services.AddHttpClient();
+
+            services.Configure<TemplateOptions>(o =>
+            {
+                o.MemberAccessStrategy.Register<LeverPostingPartViewModel>();
+                o.MemberAccessStrategy.Register<LeverPostingApplyViewModel>();
+                o.MemberAccessStrategy.Register<CustomQuestions>();
+                o.MemberAccessStrategy.Register<Posting>();
+                o.MemberAccessStrategy.Register<PostingCategories>();
+                o.MemberAccessStrategy.Register<PostingLists>();
+            });
         }
     }
 }

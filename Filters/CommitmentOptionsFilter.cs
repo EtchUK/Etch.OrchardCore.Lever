@@ -20,13 +20,13 @@ namespace Etch.OrchardCore.Lever.Filters
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async ValueTask<FluidValue> ProcessAsync(FluidValue input, FilterArguments arguments, TemplateContext ctx)
+        public async ValueTask<FluidValue> ProcessAsync(FluidValue input, FilterArguments arguments, LiquidTemplateContext context)
         {
             var commitments = new List<string>();
 
             foreach (var value in input.Enumerate())
             {
-                commitments.AddRange((await value.GetValueAsync("LeverPostingPart.Commitment", ctx))
+                commitments.AddRange((await value.GetValueAsync("LeverPostingPart.Commitment", context))
                     .ToStringValue().Split(",", StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => x.Trim()).ToList()
                 );
