@@ -96,30 +96,33 @@ namespace Etch.OrchardCore.Lever.Services
         {
             var contentItems = new List<ContentItem>();
 
-            using var scope = await _shellHost.GetScopeAsync(_shellSettings);
-            var contentManager = scope.ServiceProvider.GetRequiredService<IContentManager>();
+            var shellScope = await _shellHost.GetScopeAsync(_shellSettings);
 
-            var postingContentItems = await GetAllAsync();
-
-            // Remove old postings
-            await RemoveAsync(contentManager, postingContentItems.Where(x => !postings.Any(y => y.Id == x.As<LeverPostingPart>().LeverId)).ToList());
-
-            // Add/Update posings
-            _logger.LogInformation($"Lever: Add/Update ({0}) content items", postings.Count());
-            foreach (var posting in postings)
+            await shellScope.UsingAsync(async scope =>
             {
-                var contentItem = postingContentItems.SingleOrDefault(x => x.As<LeverPostingPart>().LeverId == posting.Id);
+                var contentManager = scope.ServiceProvider.GetRequiredService<IContentManager>();
 
-                // If not already exists create a new one
-                if (contentItem == null)
+                var postingContentItems = await GetAllAsync();
+
+                // Remove old postings
+                await RemoveAsync(contentManager, postingContentItems.Where(x => !postings.Any(y => y.Id == x.As<LeverPostingPart>().LeverId)).ToList());
+
+                // Add/Update posings
+                _logger.LogInformation($"Lever: Add/Update ({0}) content items", postings.Count());
+                foreach (var posting in postings)
                 {
-                    contentItems.Add(await CreateAsync(contentManager, posting));
-                    continue;
+                    var contentItem = postingContentItems.SingleOrDefault(x => x.As<LeverPostingPart>().LeverId == posting.Id);
+
+                    // If not already exists create a new one
+                    if (contentItem == null)
+                    {
+                        contentItems.Add(await CreateAsync(contentManager, posting));
+                        continue;
+                    }
+
+                    contentItems.Add(await UpdateAsync(contentManager, contentItem, posting));
                 }
-
-                contentItems.Add(await UpdateAsync(contentManager, contentItem, posting));
-            }
-
+            });
 
             return contentItems;
         }

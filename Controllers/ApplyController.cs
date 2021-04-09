@@ -51,9 +51,9 @@ namespace Etch.OrchardCore.Lever.Controllers
                 return new RedirectResult(referer);
             }
 
-            _autorouteEntries.TryGetEntryByPath(GetReferrerRoute(), out var contentItem);
+            (var found, var contentItem) = await _autorouteEntries.TryGetEntryByPathAsync(GetReferrerRoute());
 
-            if (contentItem == null)
+            if (!found)
             {
                 return new BadRequestResult();
             }

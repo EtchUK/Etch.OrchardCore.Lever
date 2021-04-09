@@ -7,6 +7,7 @@ using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Data.Migration;
 using OrchardCore.Recipes.Services;
 using OrchardCore.Title.Models;
+using YesSql.Sql;
 
 namespace Etch.OrchardCore.Lever
 {
@@ -41,8 +42,8 @@ namespace Etch.OrchardCore.Lever
                 }))
                 .WithPart(nameof(LeverPostingPart))
                 .DisplayedAs(Constants.Lever.DisplayName));
-
-            SchemaBuilder.CreateMapIndexTable(nameof(LeverPostingPartIndex), table => table
+            
+            SchemaBuilder.CreateMapIndexTable<LeverPostingPartIndex>(table => table
                 .Column<string>("LeverId")
             );
 
