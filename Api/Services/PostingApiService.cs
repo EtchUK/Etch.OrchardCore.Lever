@@ -113,7 +113,7 @@ namespace Etch.OrchardCore.Lever.Api.Services
 
         #region Helper Methods
 
-        private bool FilterPostings(LeverSettings settings, Posting posting)
+        private static bool FilterPostings(LeverSettings settings, Posting posting)
         {
             if (settings.Locations == null || !settings.Locations.Any())
             {

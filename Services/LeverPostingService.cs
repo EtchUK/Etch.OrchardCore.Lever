@@ -108,7 +108,7 @@ namespace Etch.OrchardCore.Lever.Services
                 await RemoveAsync(contentManager, postingContentItems.Where(x => !postings.Any(y => y.Id == x.As<LeverPostingPart>().LeverId)).ToList());
 
                 // Add/Update posings
-                _logger.LogInformation($"Lever: Add/Update ({0}) content items", postings.Count());
+                _logger.LogInformation($"Lever: Add/Update ({0}) content items", postings.Count);
                 foreach (var posting in postings)
                 {
                     var contentItem = postingContentItems.SingleOrDefault(x => x.As<LeverPostingPart>().LeverId == posting.Id);
@@ -129,14 +129,14 @@ namespace Etch.OrchardCore.Lever.Services
 
         private async Task RemoveAsync(IContentManager contentManager, IList<ContentItem> contentItems)
         {
-            _logger.LogInformation($"Lever: Removing ({0}) content items", contentItems.Count());
+            _logger.LogInformation($"Lever: Removing ({0}) content items", contentItems.Count);
             foreach (var contentItem in contentItems)
             {
                 await contentManager.RemoveAsync(contentItem);
             }
         }
 
-        private async Task<ContentItem> UpdateAsync(IContentManager contentManager, ContentItem contentItem, Posting posting)
+        private static async Task<ContentItem> UpdateAsync(IContentManager contentManager, ContentItem contentItem, Posting posting)
         {
             if (contentItem.DisplayText == posting.Text && contentItem.ComparePostingPart(posting))
             {
