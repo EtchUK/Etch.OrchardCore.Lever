@@ -24,7 +24,7 @@ namespace Etch.OrchardCore.Lever.Filters
         {
             var commitments = new List<string>();
 
-            foreach (var value in input.Enumerate())
+            foreach (var value in input.Enumerate(context))
             {
                 commitments.AddRange((await value.GetValueAsync("LeverPostingPart.Commitment", context))
                     .ToStringValue().Split(",", StringSplitOptions.RemoveEmptyEntries)

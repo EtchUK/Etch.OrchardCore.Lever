@@ -22,7 +22,7 @@ namespace Etch.OrchardCore.Lever.Filters
         {
             var teams = new List<string>();
 
-            foreach (var value in input.Enumerate())
+            foreach (var value in input.Enumerate(context))
             {
                 teams.Add((await value.GetValueAsync("LeverPostingPart.Team", context)).ToStringValue());
             }
