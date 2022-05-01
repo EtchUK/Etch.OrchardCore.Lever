@@ -1,6 +1,6 @@
 {
     "name": "etch.orchardcore.lever",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Module for Orchard Core providing integration with Lever.",
     "scripts": {
         "build": "webpack",
@@ -18,18 +18,18 @@
     },
     "homepage": "https://github.com/etchuk/Etch.OrchardCore.Lever#readme",
     "devDependencies": {
-        "@types/bootstrap": "^4.3.2",
-        "@types/jquery": "^3.3.34",
-        "serialize-javascript": "^5.0.1",
-        "ts-loader": "^6.2.2",
-        "typescript": "^3.8.3",
-        "webpack": "^4.42.1",
-        "webpack-cli": "^3.3.11"
+        "@types/bootstrap": "^5.1.10",
+        "@types/jquery": "^3.5.14",
+        "serialize-javascript": "^6.0.0",
+        "ts-loader": "^9.3.0",
+        "typescript": "^4.6.4",
+        "webpack": "^5.72.0",
+        "webpack-cli": "^4.9.2"
     },
     "dependencies": {
-        "bootstrap": "^4.4.1",
-        "jquery": "^3.5.0",
+        "bootstrap": "^5.1.3",
+        "jquery": "^3.6.0",
         "jquery-ui": "^1.12.1",
-        "vue": "^2.6.11"
+        "vue": "^2.6.14"
     }
 }

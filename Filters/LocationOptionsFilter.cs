@@ -23,7 +23,7 @@ namespace Etch.OrchardCore.Lever.Filters
         {
             var locations = new List<string>();
 
-            foreach (var value in input.Enumerate())
+            foreach (var value in input.Enumerate(context))
             {
                 locations.Add((await value.GetValueAsync("LeverPostingPart.Location", context)).ToStringValue());
             }
