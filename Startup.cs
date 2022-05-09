@@ -34,7 +34,6 @@ namespace Etch.OrchardCore.Lever
                     .UseDisplayDriver<LeverPostingPartDisplayDriver>();
 
             services.AddScoped<IPostingApiService, PostingApiService>();
-            services.AddScoped<IBackgroundTask, LeverPostingBackgroundTask>();
             services.AddScoped<ILeverPostingService, LeverPostingService>();
             services.AddScoped<INavigationProvider, AdminMenu>();
             services.AddScoped<IDisplayDriver<ISite>, LeverSettingsDisplayDriver>();
