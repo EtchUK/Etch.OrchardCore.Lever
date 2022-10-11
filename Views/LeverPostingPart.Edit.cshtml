@@ -3,28 +3,28 @@
 <h3>@T["Lever posting detail"]</h3>
 <p><em>@T["Fields below are automatically updated via Lever API. Use the Lever website to update these fields."]</em></p>
 
-<div class="form-group">
+<div class="mb-3">
     <label>@T["Commitment"]</label>
     <div class="input-group">
         <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Commitment" />
     </div>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label>@T["Team"]</label>
     <div class="input-group">
         <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Team" />
     </div>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label>@T["Location"]</label>
     <div class="input-group">
         <input class="form-control" type="text" disabled="disabled" value="@Model.Posting.Categories.Location" />
     </div>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <h3>@T["Description"]</h3>
 
     @Html.Raw(Model.Posting.Description)

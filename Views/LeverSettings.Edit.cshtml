@@ -12,31 +12,31 @@
     }
 </style>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="ApiKey">@T["API Key"]</label>
     <input asp-for="ApiKey" class="form-control" />
     <span class="hint">@T["Create and manage your API keys from the <a href=\"https://hire.lever.co/settings/integrations\" target=\"_blank\">Integrations and API page in Settings</a> of your Lever account, on the API Credentials tab."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Site">@T["Site"]</label>
     <input asp-for="Site" class="form-control" />
     <span class="hint">@T["Provide the site name from Lever."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="SuccessUrl">@T["Success URL"]</label>
     <input asp-for="SuccessUrl" class="form-control" />
     <span class="hint">@T["URL to redirect candidates after successful job apply."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="FormId">@T["Form Id"]</label>
     <input asp-for="FormId" class="form-control" />
     <span class="hint">@T["ContentItemId of lever form."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Locations">Locations</label>
     <p class="hint">Control which locations should be pulled from API.</p>
 
@@ -44,7 +44,7 @@
         <input type="hidden" asp-for="LocationsJson" :value="value" data-init="@Model.LocationsJson">
 
         <div class="form-inline mb-3">
-            <div class="form-group mr-3 w-100" style="max-width: 300px;">
+            <div class="mb-3 mr-3 w-100" style="max-width: 300px;">
                 <label for="@Html.IdFor(m => m.Locations)_NewValue" class="sr-only">@T["Add Location"]</label>
                 <input type="text" class="form-control w-100" id="@Html.IdFor(m => m.Locations)_NewValue" placeholder="@T["Enter a new location"]" v-model="newValue" v-on:keydown.enter.prevent="add">
             </div>
